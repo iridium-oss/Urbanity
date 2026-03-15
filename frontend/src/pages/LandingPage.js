@@ -30,6 +30,7 @@ const MODE_ICONS = {
   walking: Footprints, wheelchair: Accessibility, bicycle: Bike, e_bike: Zap,
   scooter: CircleDot, e_scooter: Zap, private_car: Car, taxi: Navigation,
   metro: Train, bus: Bus, minibus: Truck, shuttle: Bus, park_and_ride: ParkingSquare,
+  shared_mobility: Users,
 };
 
 const MODES = [
@@ -46,6 +47,7 @@ const MODES = [
   { id: 'minibus', name: 'Minibus', status: 'active' },
   { id: 'shuttle', name: 'Shuttle', status: 'limited' },
   { id: 'park_and_ride', name: 'Park & Ride', status: 'planned' },
+  { id: 'shared_mobility', name: 'Shared Mobility', status: 'planned' },
 ];
 
 const Navbar = () => {

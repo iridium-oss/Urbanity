@@ -35,6 +35,7 @@ MOBILITY_MODES = [
     {"id": "minibus", "name": "Minibus", "icon": "Truck", "category": "transit", "status": "active", "provenance": "public_undocumented", "description": "Informal minibus routes with observed schedules", "color": "#a855f7"},
     {"id": "shuttle", "name": "Shuttle", "icon": "Bus", "category": "transit", "status": "limited", "provenance": "configuration_required", "description": "Corporate and event shuttle services", "color": "#ec4899"},
     {"id": "park_and_ride", "name": "Park and Ride", "icon": "ParkingSquare", "category": "transfer", "status": "planned", "provenance": "configuration_required", "description": "Park-and-ride facilities with transfer options", "color": "#6366f1"},
+    {"id": "shared_mobility", "name": "Shared Mobility", "icon": "Users", "category": "emerging", "status": "planned", "provenance": "configuration_required", "description": "Future shared mobility and carpooling services", "color": "#0ea5e9"},
 ]
 
 PROVIDERS = [

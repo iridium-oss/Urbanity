@@ -17,7 +17,7 @@ mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
-app = FastAPI(title="IRIDIUM API", version="1.0.0")
+app = FastAPI(title="Urbanivity API", version="1.0.0")
 api_router = APIRouter(prefix="/api")
 
 # ============================================================
@@ -408,7 +408,7 @@ OVERVIEW_STATS = {
 
 @api_router.get("/")
 async def root():
-    return {"message": "IRIDIUM API", "version": "1.0.0", "status": "operational"}
+    return {"message": "Urbanivity API", "version": "1.0.0", "status": "operational"}
 
 @api_router.get("/dashboard/overview")
 async def get_dashboard_overview():

@@ -65,7 +65,7 @@ const MobilityModeBar = ({ modes, activeModes, toggleMode, clearModes, onModeDet
   if (!modes.length) return null;
   const hasActive = activeModes.size > 0;
   return (
-    <div className="flex items-center gap-2 px-4 lg:px-6 py-2.5 border-b border-slate-800/40 bg-[#0D1117]/60 overflow-x-auto iridium-scroll" data-testid="mobility-mode-bar">
+    <div className="flex items-center gap-2 px-4 lg:px-6 py-2.5 border-b border-slate-800/40 bg-[#0D1117]/60 overflow-x-auto urbanivity-scroll" data-testid="mobility-mode-bar">
       <span className="text-xs text-slate-500 font-mono uppercase tracking-wider whitespace-nowrap mr-1">Modes:</span>
       {hasActive && (
         <button onClick={clearModes} className="text-xs text-slate-500 hover:text-slate-300 border border-slate-700 rounded-md px-2 py-1 whitespace-nowrap transition-colors" data-testid="clear-modes-btn">
@@ -91,13 +91,12 @@ const MobilityModeBar = ({ modes, activeModes, toggleMode, clearModes, onModeDet
                         onModeDetail && onModeDetail(null);
                       }
                     }}
-                    className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap transition-all duration-200 border ${
-                      isActive
-                        ? 'bg-blue-600/15 border-blue-500/40 text-blue-300'
-                        : hasActive
-                          ? 'bg-transparent border-slate-800/40 text-slate-600 hover:text-slate-400 hover:border-slate-700'
-                          : 'bg-[#141820] border-slate-800/60 text-slate-400 hover:text-slate-200 hover:border-slate-600'
-                    }`}
+                    className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap transition-all duration-200 border ${isActive
+                      ? 'bg-blue-600/15 border-blue-500/40 text-blue-300'
+                      : hasActive
+                        ? 'bg-transparent border-slate-800/40 text-slate-600 hover:text-slate-400 hover:border-slate-700'
+                        : 'bg-[#141820] border-slate-800/60 text-slate-400 hover:text-slate-200 hover:border-slate-600'
+                      }`}
                     data-testid={`mode-filter-${mode.id}`}
                   >
                     <Icon className="w-3.5 h-3.5" strokeWidth={1.5} />
@@ -161,10 +160,7 @@ export default function Dashboard() {
           {sidebarOpen ? (
             <div className="flex items-center justify-between w-full">
               <Link to="/" className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-md bg-blue-600 flex items-center justify-center">
-                  <Layers className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
-                </div>
-                <span className="font-heading font-bold text-sm text-white tracking-tight">IRIDIUM</span>
+                <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="w-12 h-12" />
               </Link>
               <button onClick={() => setSidebarOpen(false)} className="text-slate-500 hover:text-slate-300 transition-colors" data-testid="collapse-sidebar-btn">
                 <ChevronLeft className="w-4 h-4" />
@@ -176,16 +172,15 @@ export default function Dashboard() {
             </button>
           )}
         </div>
-        <nav className="flex-1 py-3 overflow-y-auto iridium-scroll">
+        <nav className="flex-1 py-3 overflow-y-auto urbanivity-scroll">
           {SECTIONS.map((s) => (
             <button
               key={s.id}
               onClick={() => handleSectionChange(s.id)}
-              className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm transition-all duration-200 ${
-                activeSection === s.id
-                  ? 'bg-blue-600/10 text-blue-400 border-r-2 border-blue-500'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-              }`}
+              className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm transition-all duration-200 ${activeSection === s.id
+                ? 'bg-blue-600/10 text-blue-400 border-r-2 border-blue-500'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                }`}
               data-testid={`nav-${s.id}`}
             >
               <s.icon className="w-4 h-4 flex-shrink-0" strokeWidth={1.5} />
@@ -234,10 +229,7 @@ export default function Dashboard() {
               <Menu className="w-5 h-5" />
             </button>
             <div className="lg:hidden flex items-center gap-2">
-              <div className="w-6 h-6 rounded bg-blue-600 flex items-center justify-center">
-                <Layers className="w-3 h-3 text-white" strokeWidth={2.5} />
-              </div>
-              <span className="font-heading font-bold text-sm text-white">IRIDIUM</span>
+              <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="w-10 h-10" />
             </div>
             <div className="hidden lg:block">
               <h1 className="font-heading font-semibold text-white text-sm">
@@ -293,9 +285,8 @@ export default function Dashboard() {
                 <button
                   key={s.id}
                   onClick={() => handleSectionChange(s.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm mb-1 ${
-                    activeSection === s.id ? 'bg-blue-600/10 text-blue-400' : 'text-slate-400 hover:bg-slate-800/50'
-                  }`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm mb-1 ${activeSection === s.id ? 'bg-blue-600/10 text-blue-400' : 'text-slate-400 hover:bg-slate-800/50'
+                    }`}
                 >
                   <s.icon className="w-4 h-4" strokeWidth={1.5} />
                   {s.name}
@@ -309,7 +300,7 @@ export default function Dashboard() {
         )}
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto iridium-scroll p-4 lg:p-6" data-testid="dashboard-content">
+        <main className="flex-1 overflow-y-auto urbanivity-scroll p-4 lg:p-6" data-testid="dashboard-content">
           {detailMode && <ModeDetailPanel modeId={detailMode} onClose={() => setDetailMode(null)} />}
           <ActiveView />
         </main>

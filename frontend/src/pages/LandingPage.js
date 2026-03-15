@@ -5,7 +5,7 @@ import {
   ChevronRight, MapPin, Shield, BarChart3, Route, AlertTriangle,
   Accessibility, Globe, Users, Building2, Smartphone, Train, Bus,
   Car, Bike, Footprints, Navigation, Truck, Eye, CheckCircle2,
-  Clock, ArrowRight, Layers, Activity, Zap, CircleDot, ParkingSquare,
+  Clock, ArrowRight, Activity, Zap, CircleDot, ParkingSquare,
   Menu, X, Star, Target, TrendingUp, Database, Lock, Server
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -59,13 +59,10 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', h);
   }, []);
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 glass-panel border-b border-slate-200/50 shadow-sm' : 'bg-transparent'}`} data-testid="navbar">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+    <nav className={`fixed top-0 left-0 right-0 z-50 py-2 transition-all duration-300 ${scrolled ? 'bg-white/90 glass-panel border-b border-slate-200/50 shadow-sm' : 'bg-transparent'}`} data-testid="navbar">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-            <Layers className="w-4 h-4 text-white" strokeWidth={2.5} />
-          </div>
-          <span className="font-heading font-bold text-lg tracking-tight text-slate-900">IRIDIUM</span>
+          <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="w-full h-16" />
         </Link>
         <div className="hidden md:flex items-center gap-8">
           <a href="#vision" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">Vision</a>
@@ -116,7 +113,7 @@ const Hero = () => (
           and trustworthy
         </h1>
         <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl mb-8 font-light">
-          IRIDIUM is a provenance-aware multimodal mobility intelligence platform for Azerbaijani cities.
+          Urbanivity is a provenance-aware multimodal mobility intelligence platform for Azerbaijani cities.
           Built for Baku. Designed for every mode of movement, including wheelchair mobility.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
@@ -166,7 +163,7 @@ const Vision = () => (
               Planners cannot see the full picture. Operators work in isolation. Decision-makers lack transparent, source-aware data.
             </p>
             <p>
-              IRIDIUM treats mobility as one connected system. Every mode, from walking and wheelchair mobility to metro and ride-hailing,
+              Urbanivity treats mobility as one connected system. Every mode, from walking and wheelchair mobility to metro and ride-hailing,
               is part of a unified intelligence layer where every data point carries its provenance.
             </p>
           </div>
@@ -203,7 +200,7 @@ const MultimodalSection = () => (
           Every mode of movement, one platform
         </h2>
         <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto font-light">
-          IRIDIUM supports 14 mobility modes: walking, wheelchair mobility, bicycle, e-bike, scooter, e-scooter,
+          Urbanivity supports 14 mobility modes: walking, wheelchair mobility, bicycle, e-bike, scooter, e-scooter,
           private car, taxi and ride-hailing, metro, bus, minibus, shuttle, transfer-based multimodal journeys,
           and future shared mobility. This is not just another transit app.
         </p>
@@ -267,7 +264,7 @@ const SourceTrust = () => (
           Every data point tells you where it came from
         </h2>
         <p className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto font-light">
-          Unlike opaque mobility platforms, IRIDIUM makes source transparency a core feature.
+          Unlike opaque mobility platforms, Urbanivity makes source transparency a core feature.
           Every metric, alert, and route carries a provenance tag.
         </p>
       </motion.div>
@@ -351,18 +348,24 @@ const BusinessSection = () => (
       </motion.div>
       <div className="grid md:grid-cols-3 gap-8">
         {[
-          { segment: 'B2G', subtitle: 'Public Sector', icon: Building2, items: [
-            'City-wide mobility dashboard', 'Equity and accessibility analytics', 'Resilience and service visibility',
-            'Digital twin completeness', 'On-premise / sovereign deployment', 'Planning decision support'
-          ]},
-          { segment: 'B2B', subtitle: 'Operators', icon: Server, items: [
-            'Operational status dashboard', 'Route-level performance insight', 'Alert management system',
-            'Stop and station analytics', 'Integration API surfaces', 'White-label deployment option'
-          ]},
-          { segment: 'B2C', subtitle: 'Riders', icon: Smartphone, items: [
-            'Multimodal trip planning', 'Source confidence indicators', 'Service disruption alerts',
-            'Accessibility-aware routing', 'Real observed arrivals', 'Cost and time comparison'
-          ]},
+          {
+            segment: 'B2G', subtitle: 'Public Sector', icon: Building2, items: [
+              'City-wide mobility dashboard', 'Equity and accessibility analytics', 'Resilience and service visibility',
+              'Digital twin completeness', 'On-premise / sovereign deployment', 'Planning decision support'
+            ]
+          },
+          {
+            segment: 'B2B', subtitle: 'Operators', icon: Server, items: [
+              'Operational status dashboard', 'Route-level performance insight', 'Alert management system',
+              'Stop and station analytics', 'Integration API surfaces', 'White-label deployment option'
+            ]
+          },
+          {
+            segment: 'B2C', subtitle: 'Riders', icon: Smartphone, items: [
+              'Multimodal trip planning', 'Source confidence indicators', 'Service disruption alerts',
+              'Accessibility-aware routing', 'Real observed arrivals', 'Cost and time comparison'
+            ]
+          },
         ].map((b) => (
           <motion.div key={b.segment} {...fadeUp} className="bg-white rounded-2xl p-8 border border-slate-100 hover:shadow-md transition-all">
             <div className="flex items-center gap-3 mb-6">
@@ -442,7 +445,7 @@ const WUFSection = () => (
           </h2>
           <p className="text-blue-100 leading-relaxed mb-6 font-light">
             The World Urban Forum 13 in Cairo emphasized resilient, inclusive, and sustainable cities.
-            IRIDIUM directly supports these goals by making urban mobility transparent, accessible, and equitable.
+            Urbanivity directly supports these goals by making urban mobility transparent, accessible, and equitable.
           </p>
         </motion.div>
         <motion.div {...fadeUp} transition={{ delay: 0.2 }} className="grid grid-cols-2 gap-4">
@@ -472,11 +475,13 @@ const TeamSection = () => (
           Built by people who understand the problem
         </h2>
       </motion.div>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
         {[
-          { name: 'Murad Aliyev', role: 'Founder & Product Lead', focus: 'Urban mobility, transit systems, public-sector technology' },
-          { name: 'Leyla Mammadova', role: 'Data & Intelligence Lead', focus: 'Geospatial analytics, ML forecasting, Earth observation' },
-          { name: 'Farid Hasanov', role: 'Engineering Lead', focus: 'Platform architecture, API design, system reliability' },
+          { name: 'Olaf Yunus Laitinen Imanov', role: 'AI Engineer', focus: 'Architecting the digital twin logic and forecasting models.' },
+          { name: 'Amina Sadiqzade', role: 'Frontend Developer', focus: 'Building the institutional dashboard and accessibility interfaces.' },
+          { name: 'Malahat Ismayilova', role: 'AI Engineer', focus: 'Leading source-status verification and anomaly detection.' },
+          { name: 'Aslan Ibadullayev', role: 'Frontend Developer', focus: 'Engineering the B2C utility and multimodal routing displays.' },
+          { name: 'Fidan Bagirova', role: 'AI Engineer', focus: 'Designing the future federated learning pathways.' },
         ].map((member) => (
           <motion.div key={member.name} {...fadeUp} className="bg-white rounded-2xl p-6 border border-slate-100 text-center hover:shadow-md transition-all">
             <div className="w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center mx-auto mb-4">
@@ -497,7 +502,7 @@ const CTASection = () => (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <motion.div {...fadeUp}>
         <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">
-          See IRIDIUM in action
+          See Urbanivity in action
         </h2>
         <p className="text-lg text-slate-400 max-w-xl mx-auto mb-8 font-light">
           Explore the full dashboard with real Baku mobility data, multimodal routing, equity analytics, and source-aware intelligence.
@@ -517,10 +522,7 @@ const Footer = () => (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-md bg-blue-600 flex items-center justify-center">
-            <Layers className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
-          </div>
-          <span className="font-heading font-bold text-white tracking-tight">IRIDIUM</span>
+          <span className="font-heading font-bold text-white tracking-tight">Urbanivity</span>
         </div>
         <p className="text-sm text-slate-500">Multimodal Urban Mobility Intelligence for Azerbaijan</p>
         <div className="flex items-center gap-4 text-xs text-slate-600">

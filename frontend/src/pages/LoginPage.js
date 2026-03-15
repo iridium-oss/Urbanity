@@ -73,7 +73,7 @@ export default function LoginPage() {
       const userData = res.data;
       setUser(userData);
       setAudienceMode(selectedRole);
-      localStorage.setItem('iridium_user', JSON.stringify(userData));
+      localStorage.setItem('urbanivity_user', JSON.stringify(userData));
       navigate('/dashboard/overview');
     } catch (e) {
       setError('Login failed. Please try again.');
@@ -94,10 +94,7 @@ export default function LoginPage() {
         </div>
         <div className="relative z-10">
           <Link to="/" className="flex items-center gap-3 mb-16">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center">
-              <Layers className="w-5 h-5 text-white" strokeWidth={2.5} />
-            </div>
-            <span className="font-heading font-bold text-2xl text-white tracking-tight">IRIDIUM</span>
+            <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="w-20 h-20" />
           </Link>
           <h1 className="font-heading text-4xl font-bold text-white leading-tight mb-6">
             Urban Mobility<br />Intelligence Platform
@@ -124,10 +121,8 @@ export default function LoginPage() {
         <motion.div {...fadeUp} className="w-full max-w-lg">
           {/* Mobile Logo */}
           <div className="lg:hidden flex items-center gap-2.5 mb-10">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-              <Layers className="w-4 h-4 text-white" strokeWidth={2.5} />
-            </div>
-            <span className="font-heading font-bold text-lg text-white tracking-tight">IRIDIUM</span>
+            <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="w-16 h-16" />
+            <span className="font-heading font-bold text-lg text-white tracking-tight">Urbanivity</span>
           </div>
 
           <h2 className="font-heading text-2xl font-semibold text-white mb-2">Access Dashboard</h2>
@@ -180,11 +175,10 @@ export default function LoginPage() {
                 <button
                   key={role.id}
                   onClick={() => setSelectedRole(role.id)}
-                  className={`text-left rounded-xl p-4 border transition-all duration-200 ${
-                    isSelected
-                      ? 'border-blue-500 bg-blue-500/10 ring-1 ring-blue-500/20'
-                      : 'border-slate-800 bg-[#141820] hover:border-slate-600'
-                  }`}
+                  className={`text-left rounded-xl p-4 border transition-all duration-200 ${isSelected
+                    ? 'border-blue-500 bg-blue-500/10 ring-1 ring-blue-500/20'
+                    : 'border-slate-800 bg-[#141820] hover:border-slate-600'
+                    }`}
                   data-testid={`role-${role.id}`}
                 >
                   <div className="flex items-center gap-3">

@@ -54,7 +54,7 @@ export default function TransitNetwork() {
         <div className="lg:col-span-2 bg-[#141820] border border-slate-800/60 rounded-xl overflow-hidden" data-testid="transit-map">
           <MapComponent lines={filteredLines} height="450px" dark={true} zoom={12} />
         </div>
-        <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5 overflow-y-auto iridium-scroll" style={{ maxHeight: '450px' }} data-testid="transit-lines-panel">
+        <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5 overflow-y-auto urbanivity-scroll" style={{ maxHeight: '450px' }} data-testid="transit-lines-panel">
           <h3 className="font-heading text-sm font-medium text-white mb-4">Transit Lines</h3>
           <Tabs defaultValue="all" onValueChange={setFilter}>
             <TabsList className="bg-slate-800/60 flex-wrap h-auto gap-0.5 p-1">

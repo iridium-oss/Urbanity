@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-IRIDIUM Backend API Testing Suite
+Urbanivity Backend API Testing Suite
 Tests all API endpoints using the external URL
 """
 
@@ -9,7 +9,7 @@ import sys
 import json
 from datetime import datetime
 
-class IridiumAPITester:
+class UrbanivityAPITester:
     def __init__(self, base_url="https://urban-transit-os.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.tests_run = 0
@@ -332,10 +332,10 @@ class IridiumAPITester:
         return all_success, {}
 
 def main():
-    print("🚀 Starting IRIDIUM Backend API Testing")
+    print("🚀 Starting Urbanivity Backend API Testing")
     print("=" * 60)
     
-    tester = IridiumAPITester()
+    tester = UrbanivityAPITester()
     
     # Run all tests
     test_functions = [

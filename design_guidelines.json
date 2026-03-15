@@ -1,5 +1,5 @@
 {
-  "project_name": "IRIDIUM",
+  "project_name": "Urbanivity",
   "design_philosophy": {
     "core_identity": "E1 - The Anti-AI Designer",
     "tone": "Google-quality, Calm, Elegant, Information-Rich, Trustworthy",
@@ -51,14 +51,54 @@
       }
     },
     "provenance_status": {
-      "official": { "bg": "bg-emerald-500/10", "text": "text-emerald-500", "border": "border-emerald-500/20", "dot": "#10b981" },
-      "official_alerts_only": { "bg": "bg-lime-500/10", "text": "text-lime-500", "border": "border-lime-500/20", "dot": "#84cc16" },
-      "public_web_observed": { "bg": "bg-blue-500/10", "text": "text-blue-500", "border": "border-blue-500/20", "dot": "#3b82f6" },
-      "public_undocumented": { "bg": "bg-amber-500/10", "text": "text-amber-500", "border": "border-amber-500/20", "dot": "#f59e0b" },
-      "licensed_partner": { "bg": "bg-purple-500/10", "text": "text-purple-500", "border": "border-purple-500/20", "dot": "#a855f7" },
-      "configuration_required": { "bg": "bg-red-500/10", "text": "text-red-500", "border": "border-red-500/20", "dot": "#ef4444" },
-      "unavailable": { "bg": "bg-slate-500/10", "text": "text-slate-500", "border": "border-slate-500/20", "dot": "#64748b" },
-      "stale": { "bg": "bg-orange-900/10", "text": "text-orange-700", "border": "border-orange-700/20", "dot": "#c2410c" }
+      "official": {
+        "bg": "bg-emerald-500/10",
+        "text": "text-emerald-500",
+        "border": "border-emerald-500/20",
+        "dot": "#10b981"
+      },
+      "official_alerts_only": {
+        "bg": "bg-lime-500/10",
+        "text": "text-lime-500",
+        "border": "border-lime-500/20",
+        "dot": "#84cc16"
+      },
+      "public_web_observed": {
+        "bg": "bg-blue-500/10",
+        "text": "text-blue-500",
+        "border": "border-blue-500/20",
+        "dot": "#3b82f6"
+      },
+      "public_undocumented": {
+        "bg": "bg-amber-500/10",
+        "text": "text-amber-500",
+        "border": "border-amber-500/20",
+        "dot": "#f59e0b"
+      },
+      "licensed_partner": {
+        "bg": "bg-purple-500/10",
+        "text": "text-purple-500",
+        "border": "border-purple-500/20",
+        "dot": "#a855f7"
+      },
+      "configuration_required": {
+        "bg": "bg-red-500/10",
+        "text": "text-red-500",
+        "border": "border-red-500/20",
+        "dot": "#ef4444"
+      },
+      "unavailable": {
+        "bg": "bg-slate-500/10",
+        "text": "text-slate-500",
+        "border": "border-slate-500/20",
+        "dot": "#64748b"
+      },
+      "stale": {
+        "bg": "bg-orange-900/10",
+        "text": "text-orange-700",
+        "border": "border-orange-700/20",
+        "dot": "#c2410c"
+      }
     },
     "contextual": {
       "landing_bg": "bg-slate-50",

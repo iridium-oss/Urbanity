@@ -10,19 +10,19 @@ export function AppProvider({ children }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem('iridium_user');
+    const stored = localStorage.getItem('urbanivity_user');
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
         setUser(parsed);
         setAudienceMode(parsed.role || 'executive');
-      } catch {}
+      } catch { }
     }
   }, []);
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('iridium_user');
+    localStorage.removeItem('urbanivity_user');
   };
 
   const toggleMode = (modeId) => {

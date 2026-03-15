@@ -14,7 +14,12 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: 'Outfit', sans-serif;
 }
 
@@ -50,6 +55,7 @@ code {
         --chart-5: 27 87% 67%;
         --radius: 0.5rem;
     }
+
     .dark {
         --background: 222 47% 4%;
         --foreground: 210 40% 96%;
@@ -82,6 +88,7 @@ code {
     * {
         @apply border-border;
     }
+
     body {
         @apply bg-background text-foreground;
     }
@@ -94,17 +101,20 @@ code {
 }
 
 /* Custom scrollbar for dashboard */
-.iridium-scroll::-webkit-scrollbar {
+.urbanivity-scroll::-webkit-scrollbar {
     width: 6px;
 }
-.iridium-scroll::-webkit-scrollbar-track {
+
+.urbanivity-scroll::-webkit-scrollbar-track {
     background: transparent;
 }
-.iridium-scroll::-webkit-scrollbar-thumb {
+
+.urbanivity-scroll::-webkit-scrollbar-thumb {
     background: rgba(100, 116, 139, 0.3);
     border-radius: 3px;
 }
-.iridium-scroll::-webkit-scrollbar-thumb:hover {
+
+.urbanivity-scroll::-webkit-scrollbar-thumb:hover {
     background: rgba(100, 116, 139, 0.5);
 }
 
@@ -114,6 +124,7 @@ code {
     color: #e2e8f0;
     border-color: #334155;
 }
+
 .dark-map .leaflet-control-attribution {
     background: rgba(15, 23, 42, 0.8);
     color: #64748b;
@@ -128,16 +139,38 @@ code {
 
 /* Provenance dot animation */
 @keyframes pulse-dot {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
 }
+
 .pulse-dot {
     animation: pulse-dot 2s ease-in-out infinite;
 }
 
 /* Staggered animation helper */
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
-.stagger-5 { animation-delay: 0.5s; }
+.stagger-1 {
+    animation-delay: 0.1s;
+}
+
+.stagger-2 {
+    animation-delay: 0.2s;
+}
+
+.stagger-3 {
+    animation-delay: 0.3s;
+}
+
+.stagger-4 {
+    animation-delay: 0.4s;
+}
+
+.stagger-5 {
+    animation-delay: 0.5s;
+}

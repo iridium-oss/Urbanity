@@ -1,7 +1,7 @@
-# IRIDIUM - Product Requirements Document
+# Urbanivity - Product Requirements Document
 
 ## Original Problem Statement
-Build IRIDIUM - a provenance-aware, multimodal urban mobility intelligence platform for Azerbaijani cities (Baku primary). Full-stack web product with premium landing page, complete dashboard, demo mode, audience perspective modes, and all core mobility intelligence modules.
+Build Urbanivity - a provenance-aware, multimodal urban mobility intelligence platform for Azerbaijani cities (Baku primary). Full-stack web product with premium landing page, complete dashboard, demo mode, audience perspective modes, and all core mobility intelligence modules.
 
 ## Architecture
 - **Backend**: FastAPI (Python) with in-memory demo data, MongoDB connected

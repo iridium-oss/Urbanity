@@ -35,7 +35,7 @@ export default function Provenance() {
     <div className="space-y-6" data-testid="provenance-page">
       <div>
         <h2 className="font-heading text-xl font-semibold text-white">Provider Provenance</h2>
-        <p className="text-sm text-slate-400 mt-1">Source transparency for every data provider in the IRIDIUM system</p>
+        <p className="text-sm text-slate-400 mt-1">Source transparency for every data provider in the Urbanivity system</p>
       </div>
 
       {/* Provenance Legend */}
@@ -129,7 +129,7 @@ export default function Provenance() {
       <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5">
         <h3 className="font-heading text-sm font-medium text-white mb-2">Why Provenance Matters</h3>
         <p className="text-xs text-slate-500 leading-relaxed">
-          Every piece of data in IRIDIUM carries a provenance tag that describes its source, trust level, and freshness.
+          Every piece of data in Urbanivity carries a provenance tag that describes its source, trust level, and freshness.
           This allows decision-makers to understand the reliability of what they see, distinguish between official government data and
           community-observed information, and identify gaps where data sources need to be configured or permissions obtained.
           Source transparency is not optional; it is fundamental to building trust in urban intelligence systems.

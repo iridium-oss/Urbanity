@@ -1,0 +1,139 @@
+{
+  "project_name": "IRIDIUM",
+  "design_philosophy": {
+    "core_identity": "E1 - The Anti-AI Designer",
+    "tone": "Google-quality, Calm, Elegant, Information-Rich, Trustworthy",
+    "theme_strategy": "Hybrid: Light Elegant for Landing, Dark Professional for Dashboard",
+    "principles": [
+      "Fusion over Imitation: Swiss Grid precision meets Baku's architectural fluidity",
+      "Emotion First: Trust through transparency and provenance",
+      "Content is King: Data is the hero; UI is the frame",
+      "Zoom In: Focus on essential mobility metrics without clutter",
+      "Negative Space: Luxurious spacing (p-8 to p-12) for premium feel"
+    ]
+  },
+  "typography": {
+    "font_family": {
+      "headings": "Outfit, sans-serif",
+      "body": "Public Sans, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "scale": {
+      "display": "text-6xl md:text-8xl font-bold tracking-tight leading-none",
+      "h1": "text-4xl md:text-6xl font-semibold tracking-tight",
+      "h2": "text-3xl md:text-4xl font-semibold tracking-tight",
+      "h3": "text-2xl font-medium tracking-normal",
+      "body_lg": "text-lg md:text-xl leading-relaxed font-light text-slate-600 dark:text-slate-300",
+      "body": "text-base leading-relaxed text-slate-500 dark:text-slate-400",
+      "caption": "text-xs font-mono uppercase tracking-widest text-slate-400"
+    },
+    "installation": "Import via Google Fonts in index.css: @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Public+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');"
+  },
+  "colors": {
+    "palette": {
+      "primary": {
+        "main": "#2563EB",
+        "dark": "#1e1b4b",
+        "light": "#60A5FA",
+        "name": "Electric Blue"
+      },
+      "secondary": {
+        "main": "#F97316",
+        "name": "Flame Amber (Baku Accent)"
+      },
+      "neutral": {
+        "white": "#FFFFFF",
+        "slate_50": "#F8FAFC",
+        "slate_100": "#F1F5F9",
+        "slate_800": "#1E293B",
+        "slate_900": "#0F172A",
+        "obsidian": "#020617"
+      }
+    },
+    "provenance_status": {
+      "official": { "bg": "bg-emerald-500/10", "text": "text-emerald-500", "border": "border-emerald-500/20", "dot": "#10b981" },
+      "official_alerts_only": { "bg": "bg-lime-500/10", "text": "text-lime-500", "border": "border-lime-500/20", "dot": "#84cc16" },
+      "public_web_observed": { "bg": "bg-blue-500/10", "text": "text-blue-500", "border": "border-blue-500/20", "dot": "#3b82f6" },
+      "public_undocumented": { "bg": "bg-amber-500/10", "text": "text-amber-500", "border": "border-amber-500/20", "dot": "#f59e0b" },
+      "licensed_partner": { "bg": "bg-purple-500/10", "text": "text-purple-500", "border": "border-purple-500/20", "dot": "#a855f7" },
+      "configuration_required": { "bg": "bg-red-500/10", "text": "text-red-500", "border": "border-red-500/20", "dot": "#ef4444" },
+      "unavailable": { "bg": "bg-slate-500/10", "text": "text-slate-500", "border": "border-slate-500/20", "dot": "#64748b" },
+      "stale": { "bg": "bg-orange-900/10", "text": "text-orange-700", "border": "border-orange-700/20", "dot": "#c2410c" }
+    },
+    "contextual": {
+      "landing_bg": "bg-slate-50",
+      "dashboard_bg": "bg-[#0B0E14]",
+      "card_light": "bg-white border-slate-200 shadow-sm",
+      "card_dark": "bg-[#141820] border-slate-800 shadow-none"
+    }
+  },
+  "layout_strategies": {
+    "landing_page": {
+      "structure": "Single-page scroll with distinct sections",
+      "grid": "Bento Grid (Mode A: Tetris) for features",
+      "spacing": "Relaxed (py-24 or py-32 for sections)",
+      "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+      "glassmorphism": "Use 'Crystal Glass' style for sticky nav: bg-white/80 backdrop-blur-xl border-b border-white/20"
+    },
+    "dashboard": {
+      "structure": "Full-screen viewport application (h-screen, overflow-hidden)",
+      "grid": "High Density Grid (Mode B) - Sidebar (fixed) + Main Content (scrollable)",
+      "map_integration": "Map as underlying layer with floating panels (glassmorphism dark)",
+      "panels": "Floating panels with backdrop-blur-md bg-slate-900/90 border border-slate-800/50 rounded-xl"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-6 py-3 font-medium transition-all shadow-lg shadow-blue-600/20",
+      "secondary": "bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 rounded-lg px-6 py-3 font-medium transition-all",
+      "ghost": "text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg px-4 py-2 transition-all",
+      "dark_primary": "bg-blue-600 hover:bg-blue-500 text-white rounded-lg px-4 py-2 text-sm font-medium shadow-lg shadow-blue-900/20",
+      "dark_secondary": "bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg px-4 py-2 text-sm"
+    },
+    "cards": {
+      "feature": "group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm border border-slate-100 hover:shadow-md transition-all duration-300",
+      "stat": "bg-slate-900/50 border border-slate-800 rounded-xl p-4 flex flex-col justify-between backdrop-blur-sm"
+    },
+    "inputs": {
+      "style": "bg-slate-50 border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 rounded-lg text-sm",
+      "dark_style": "bg-slate-950 border-slate-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 rounded-lg text-sm text-slate-200"
+    }
+  },
+  "assets": {
+    "images": {
+      "hero_bg": "https://images.unsplash.com/photo-1761170661370-ccddd01a7d46?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NjZ8MHwxfHNlYXJjaHwyfHxCYWt1JTIwQXplcmJhaWphbiUyMGZ1dHVyaXN0aWMlMjBza3lsaW5lJTIwZmxhbWUlMjB0b3dlcnN8ZW58MHx8fHwxNzczNTUxMjA1fDA&ixlib=rb-4.1.0&q=85",
+      "module_transit": "https://images.unsplash.com/photo-1759674406719-baa59167036b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBlbGVjdHJpYyUyMGNpdHklMjBidXMlMjBwYXNzZW5nZXJzfGVufDB8fHx8MTc3MzU1MTIwN3ww&ixlib=rb-4.1.0&q=85",
+      "module_control": "https://images.unsplash.com/photo-1642775196125-38a9eb496568?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2ODh8MHwxfHNlYXJjaHwxfHxoaWdoJTIwdGVjaCUyMHRyYWZmaWMlMjBjb250cm9sJTIwY2VudGVyJTIwc2NyZWVuc3xlbnwwfHx8fDE3NzM1NTEyMDh8MA&ixlib=rb-4.1.0&q=85",
+      "texture_abstract": "https://images.unsplash.com/photo-1764258057610-be7ca21a0978?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGRpZ2l0YWwlMjBuZXR3b3JrJTIwbWFwJTIwY29ubmVjdGlvbiUyMGRhcmslMjBibHVlfGVufDB8fHx8MTc3MzU1MTIxOXww&ixlib=rb-4.1.0&q=85",
+      "team_woman_1": "https://images.unsplash.com/photo-1758518727888-ffa196002e59?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMjd8MHwxfHNlYXJjaHwyfHxwcm9mZXNzaW9uYWwlMjBidXNpbmVzcyUyMHdvbWFuJTIwcG9ydHJhaXQlMjBzbWlsaW5nfGVufDB8fHx8MTc3MzU1MTIxN3ww&ixlib=rb-4.1.0&q=85",
+      "team_man_1": "https://images.unsplash.com/photo-1651684215020-f7a5b6610f23?crop=entropy&cs=srgb&fm=jpg&ixid=M3w8NjA2ODl8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBidXNpbmVzcyUyMG1hbiUyMHBvcnRyYWl0JTIwc21pbGluZ3xlbnwwfHx8fDE3NzM1NTEyMTh8MA&ixlib=rb-4.1.0&q=85",
+      "team_man_2": "https://images.unsplash.com/photo-1589668944320-409833e5ba10?crop=entropy&cs=srgb&fm=jpg&ixid=M3w8NjA2ODl8MHwxfHNlYXJjaHw0fHxkaXZlcnNlJTIwY29ycG9yYXRlJTIwZXhlY3V0aXZlJTIwaGVhZHNob3RzfGVufDB8fHx8MTc3MzU1MTIwOXww&ixlib=rb-4.1.0&q=85"
+    },
+    "icons": {
+      "library": "lucide-react",
+      "style": "stroke-width=1.5"
+    }
+  },
+  "libraries": {
+    "maps": "react-leaflet",
+    "charts": "recharts",
+    "animations": "framer-motion",
+    "ui_primitives": "shadcn/ui"
+  },
+  "accessibility": {
+    "contrast": "Ensure 4.5:1 ratio for all text.",
+    "focus": "Visible ring-2 ring-blue-500 ring-offset-2 for keyboard navigation",
+    "aria": "All interactive elements must have aria-label if no text present",
+    "reduced_motion": "Respect prefers-reduced-motion media query"
+  },
+  "universal_guidelines": [
+    "No AI slop: Avoid purple gradients, generic centered layouts.",
+    "Use data-testid attributes on all interactive elements.",
+    "Dark colors must be solid or subtle noise, not gradient soups.",
+    "Micro-animations on hover are mandatory.",
+    "Do not use transparent backgrounds without blur/scrim.",
+    "Use 'sonner' for toasts.",
+    "For .js files, ensure PropTypes are defined if possible, or keep code clean."
+  ],
+  "instructions_to_main_agent": "1. Install 'lucide-react', 'recharts', 'react-leaflet', 'leaflet', 'framer-motion', 'clsx', 'tailwind-merge'. 2. Update index.css with the Google Fonts import. 3. Create the Landing Page using the Light Theme strategy. 4. Create the Dashboard using the Dark Theme strategy. 5. Ensure the Map component handles the 'Baku' coordinates (40.4093° N, 49.8671° E). 6. Implement the Audience Perspective Mode toggle clearly in the UI."
+}

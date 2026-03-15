@@ -128,11 +128,11 @@ DEMO_ROUTE = {
     "origin": {"name": "28 May Station", "lat": 40.4093, "lng": 49.8671},
     "destination": {"name": "Heydar Aliyev Center", "lat": 40.3958, "lng": 49.8679},
     "options": [
-        {"id": "r1", "name": "Metro + Walking", "modes": ["walking", "metro", "walking"], "time_min": 18, "cost_azn": 0.40, "emissions_g": 45, "reliability": 0.92, "accessibility": "full", "segments": [
+        {"id": "r1", "name": "Metro + Walking", "modes": ["walking", "metro", "walking"], "time_min": 18, "cost_azn": 0.60, "emissions_g": 45, "reliability": 0.92, "accessibility": "full", "segments": [
             {"mode": "walking", "from": "28 May entrance", "to": "28 May Metro", "min": 3, "m": 200},
             {"mode": "metro", "from": "28 May", "to": "Nariman Narimanov", "min": 8, "m": 4200, "line": "Red Line"},
             {"mode": "walking", "from": "Narimanov Metro", "to": "Heydar Aliyev Center", "min": 7, "m": 550}]},
-        {"id": "r2", "name": "Bus Direct", "modes": ["walking", "bus", "walking"], "time_min": 25, "cost_azn": 0.30, "emissions_g": 120, "reliability": 0.78, "accessibility": "partial", "segments": [
+        {"id": "r2", "name": "Bus Direct", "modes": ["walking", "bus", "walking"], "time_min": 25, "cost_azn": 0.60, "emissions_g": 120, "reliability": 0.78, "accessibility": "partial", "segments": [
             {"mode": "walking", "from": "28 May", "to": "Fountain Square Stop", "min": 4, "m": 300},
             {"mode": "bus", "from": "Fountain Square", "to": "Heydar Aliyev Center", "min": 16, "m": 5100, "route": "Route 18"},
             {"mode": "walking", "from": "Bus Stop", "to": "Heydar Aliyev Center", "min": 5, "m": 400}]},

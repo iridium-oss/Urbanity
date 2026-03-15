@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import Logo from '@/components/Logo';
 
 const fadeUp = { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.6 } };
 const fadeIn = { initial: { opacity: 0 }, whileInView: { opacity: 1 }, viewport: { once: true }, transition: { duration: 0.5 } };
@@ -63,6 +64,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-2.5">
           <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="w-[180px]" />
+          <Logo size={44} hideText />
         </Link>
         <div className="hidden md:flex items-center gap-8 mx-[20px]">
           <a href="#vision" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">Vision</a>

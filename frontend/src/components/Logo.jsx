@@ -1,16 +1,25 @@
 import React from 'react';
 
-export default function Logo({ size = 64, className = '', hideText = false }) {
-    return (
-        <div className={`flex items-center gap-2 ${className}`}>
-            <img
-                src="/assets/urbanivity-logo.png"
-                alt="Urbanivity logo"
-                className="w-[50%] h-[50%] block"
-            />
-            {!hideText && (
-                <span className="font-heading font-bold text-lg text-slate-900 tracking-tight">Urbanivity</span>
-            )}
-        </div>
-    );
+export default function Logo({
+  size = 48,
+  className = '',
+  hideText = false,
+  textClassName = '',
+  imageClassName = '',
+}) {
+  const imageSize = typeof size === 'number' ? `${size}px` : size;
+
+  return (
+    <div className={`flex items-center gap-2 ${className}`}>
+      <img
+        src="/assets/urbanivity-logo.png"
+        alt="Urbanivity logo"
+        className={`block object-contain ${imageClassName}`}
+        style={{ width: imageSize, height: imageSize }}
+      />
+      {!hideText && (
+        <span className={`font-heading font-bold text-lg tracking-tight ${textClassName}`}>Urbanivity</span>
+      )}
+    </div>
+  );
 }

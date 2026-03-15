@@ -25,6 +25,7 @@ import EarthObservation from '@/pages/dashboard/EarthObservation';
 import Provenance from '@/pages/dashboard/Provenance';
 import DemoGuide from '@/pages/dashboard/DemoGuide';
 import ModeDetailPanel from '@/components/ModeDetailPanel';
+import Logo from '@/components/Logo';
 
 const SECTIONS = [
   { id: 'overview', name: 'Executive Overview', icon: LayoutDashboard },
@@ -160,7 +161,7 @@ export default function Dashboard() {
           {sidebarOpen ? (
             <div className="flex items-center justify-between w-full">
               <Link to="/" className="flex items-center gap-2">
-                <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="w-12 h-12" />
+                <Logo size={36} hideText />
               </Link>
               <button onClick={() => setSidebarOpen(false)} className="text-slate-500 hover:text-slate-300 transition-colors" data-testid="collapse-sidebar-btn">
                 <ChevronLeft className="w-4 h-4" />
@@ -229,7 +230,7 @@ export default function Dashboard() {
               <Menu className="w-5 h-5" />
             </button>
             <div className="lg:hidden flex items-center gap-2">
-              <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="w-10 h-10" />
+              <Logo size={30} hideText />
             </div>
             <div className="hidden lg:block">
               <h1 className="font-heading font-semibold text-white text-sm">

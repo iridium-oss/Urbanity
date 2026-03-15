@@ -63,7 +63,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 left-0 right-0 z-50 py-2 transition-all duration-300 ${scrolled ? 'bg-white/90 glass-panel border-b border-slate-200/50 shadow-sm' : 'bg-transparent'}`} data-testid="navbar">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-2.5">
-          <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="lg:w-[30%] w-[30%] md:w-[50%]" />
+          <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="w-[150px]" />
       
         </Link>
         <div className="hidden md:flex items-center gap-8 mx-[20px]">

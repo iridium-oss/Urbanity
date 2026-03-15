@@ -1,0 +1,88 @@
+import { useState, useEffect } from 'react';
+import { fetchTransitNetwork } from '@/lib/api';
+import MapComponent from '@/components/MapComponent';
+import { Train, Bus, Users, MapPin, Clock } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+export default function TransitNetwork() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
+    fetchTransitNetwork().then(setData).catch(console.error).finally(() => setLoading(false));
+  }, []);
+
+  if (loading || !data) {
+    return <div className="animate-pulse"><div className="bg-[#141820] rounded-xl h-96 border border-slate-800/60" /></div>;
+  }
+
+  const filteredLines = filter === 'all' ? data.lines : data.lines.filter(l => l.status === filter);
+
+  return (
+    <div className="space-y-6" data-testid="transit-network-page">
+      <div>
+        <h2 className="font-heading text-xl font-semibold text-white">Transit Network</h2>
+        <p className="text-sm text-slate-400 mt-1">Metro lines, bus routes, and station coverage across Baku</p>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          { icon: Train, label: 'Metro Lines', value: data.lines.filter(l => l.mode === 'metro').length, color: 'text-red-400' },
+          { icon: MapPin, label: 'Total Stations', value: data.total_stations, color: 'text-blue-400' },
+          { icon: Bus, label: 'Bus Routes', value: data.total_routes, color: 'text-emerald-400' },
+          { icon: Users, label: 'Daily Ridership', value: `${(data.daily_ridership / 1000000).toFixed(1)}M`, color: 'text-purple-400' },
+        ].map((s) => (
+          <div key={s.label} className="bg-[#141820] border border-slate-800/60 rounded-xl p-4">
+            <s.icon className={`w-4 h-4 ${s.color} mb-2`} strokeWidth={1.5} />
+            <div className="font-heading text-xl font-bold text-white">{s.value}</div>
+            <div className="text-xs text-slate-400">{s.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Map + Line Details */}
+      <div className="grid lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2 bg-[#141820] border border-slate-800/60 rounded-xl overflow-hidden" data-testid="transit-map">
+          <MapComponent lines={filteredLines} height="450px" dark={true} zoom={12} />
+        </div>
+        <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5 overflow-y-auto iridium-scroll" style={{ maxHeight: '450px' }} data-testid="transit-lines-panel">
+          <h3 className="font-heading text-sm font-medium text-white mb-4">Metro Lines</h3>
+          <Tabs defaultValue="all" onValueChange={setFilter}>
+            <TabsList className="bg-slate-800/60 mb-4">
+              <TabsTrigger value="all" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">All</TabsTrigger>
+              <TabsTrigger value="active" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Active</TabsTrigger>
+              <TabsTrigger value="planned" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Planned</TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <div className="space-y-3">
+            {filteredLines.map((line) => (
+              <div key={line.id} className="p-4 rounded-lg bg-slate-900/50 border border-slate-800/40 hover:border-slate-700 transition-all">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: line.color }} />
+                  <span className="font-heading font-medium text-white text-sm">{line.name}</span>
+                  <Badge variant="outline" className={`text-xs ml-auto ${line.status === 'active' ? 'text-emerald-400 border-emerald-500/30' : 'text-slate-400 border-slate-600'}`}>
+                    {line.status}
+                  </Badge>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-xs text-slate-400">
+                  <div className="flex items-center gap-1"><MapPin className="w-3 h-3" />{line.stations} stations</div>
+                  <div className="flex items-center gap-1"><Clock className="w-3 h-3" />Every {line.frequency_min} min</div>
+                  <div>Length: {line.length_km} km</div>
+                  <div>Hours: {line.hours}</div>
+                </div>
+                <div className="mt-2">
+                  <Badge variant="outline" className="text-xs text-emerald-400 border-emerald-500/20 bg-emerald-500/5">
+                    {line.provenance}
+                  </Badge>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

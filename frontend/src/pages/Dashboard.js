@@ -82,8 +82,15 @@ const MobilityModeBar = ({ modes, activeModes, toggleMode, clearModes, onModeDet
               <Tooltip key={mode.id}>
                 <TooltipTrigger asChild>
                   <button
-                    onClick={() => toggleMode(mode.id)}
-                    onDoubleClick={() => onModeDetail && onModeDetail(mode.id)}
+                    onClick={() => {
+                      const wasActive = activeModes.has(mode.id);
+                      toggleMode(mode.id);
+                      if (!wasActive) {
+                        onModeDetail && onModeDetail(mode.id);
+                      } else {
+                        onModeDetail && onModeDetail(null);
+                      }
+                    }}
                     className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap transition-all duration-200 border ${
                       isActive
                         ? 'bg-blue-600/15 border-blue-500/40 text-blue-300'
@@ -102,7 +109,7 @@ const MobilityModeBar = ({ modes, activeModes, toggleMode, clearModes, onModeDet
                   <p className="font-medium text-white">{mode.name}</p>
                   <p className="text-slate-400">{mode.description}</p>
                   <p className="text-slate-500 mt-1">Status: {mode.status} / Source: {mode.provenance.replace(/_/g, ' ')}</p>
-                  <p className="text-slate-600 mt-0.5 italic">Click to filter / Double-click for details</p>
+                  <p className="text-slate-600 mt-0.5 italic">Click to filter and view details</p>
                 </TooltipContent>
               </Tooltip>
             );

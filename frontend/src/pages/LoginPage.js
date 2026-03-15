@@ -107,7 +107,7 @@ export default function LoginPage() {
         </div>
         <div className="relative z-10">
           <Link to="/" className="flex items-center gap-3 mb-16">
-            <Logo size={64} hideText />
+            <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="md:w-[40%]  " />
           </Link>
           <h1 className="font-heading text-4xl font-bold text-white leading-tight mb-6">
             Urban Mobility<br />Intelligence Platform
@@ -134,7 +134,8 @@ export default function LoginPage() {
         <motion.div {...fadeUp} className="w-full max-w-lg">
           {/* Mobile Logo */}
           <div className="lg:hidden flex items-center gap-2.5 mb-10">
-            <Logo size={48} textClassName="text-white" />
+            <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="w-[60%] h-[60%] " />
+            <span className="font-heading font-bold text-lg text-white tracking-tight"></span>
           </div>
 
           <h2 className="font-heading text-2xl font-semibold text-white mb-2">Access Dashboard</h2>

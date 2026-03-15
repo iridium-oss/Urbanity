@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const AppContext = createContext(null);
 
@@ -6,12 +6,43 @@ export function AppProvider({ children }) {
   const [demoMode, setDemoMode] = useState(true);
   const [audienceMode, setAudienceMode] = useState('executive');
   const [activeSection, setActiveSection] = useState('overview');
+  const [activeModes, setActiveModes] = useState(new Set());
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('iridium_user');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setUser(parsed);
+        setAudienceMode(parsed.role || 'executive');
+      } catch {}
+    }
+  }, []);
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('iridium_user');
+  };
+
+  const toggleMode = (modeId) => {
+    setActiveModes(prev => {
+      const next = new Set(prev);
+      if (next.has(modeId)) next.delete(modeId);
+      else next.add(modeId);
+      return next;
+    });
+  };
+
+  const clearModes = () => setActiveModes(new Set());
 
   return (
     <AppContext.Provider value={{
       demoMode, setDemoMode,
       audienceMode, setAudienceMode,
       activeSection, setActiveSection,
+      activeModes, toggleMode, clearModes,
+      user, setUser, logout,
     }}>
       {children}
     </AppContext.Provider>

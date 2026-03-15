@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useApp } from '@/context/AppContext';
-import { fetchOverview } from '@/lib/api';
+import { fetchOverview, fetchMobilityModes } from '@/lib/api';
 import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, BarChart, Bar } from 'recharts';
 import { Activity, Users, AlertTriangle, MapPin, Clock, TrendingUp, Shield, Accessibility } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -29,12 +29,16 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export default function Overview() {
-  const { audienceMode } = useApp();
+  const { audienceMode, activeModes } = useApp();
   const [data, setData] = useState(null);
+  const [modes, setModes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchOverview().then(setData).catch(console.error).finally(() => setLoading(false));
+    Promise.all([fetchOverview(), fetchMobilityModes()])
+      .then(([overview, modesData]) => { setData(overview); setModes(modesData); })
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading || !data) {
@@ -77,6 +81,23 @@ export default function Overview() {
           <StatCard icon={MapPin} label="Districts Covered" value={data.districts_covered} color="text-cyan-400" />
           <StatCard icon={TrendingUp} label="Forecast Accuracy" value={`${data.forecast_accuracy_pct}%`} color="text-emerald-400" />
           <StatCard icon={Clock} label="Data Freshness" value={`${data.data_freshness_pct}%`} sub="within SLA" color="text-blue-400" />
+        </div>
+      )}
+
+      {/* Active Mode Filter Info */}
+      {activeModes.size > 0 && (
+        <div className="bg-blue-500/5 border border-blue-500/20 rounded-xl p-4" data-testid="active-mode-filter-info">
+          <div className="flex items-center gap-2 mb-2">
+            <Activity className="w-4 h-4 text-blue-400" />
+            <span className="text-xs text-blue-300 font-mono uppercase tracking-wider">Filtered by {activeModes.size} mode{activeModes.size > 1 ? 's' : ''}</span>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {modes.filter(m => activeModes.has(m.id)).map(m => (
+              <Badge key={m.id} variant="outline" className="text-xs text-blue-300 border-blue-500/30 bg-blue-500/10">
+                {m.name}
+              </Badge>
+            ))}
+          </div>
         </div>
       )}
 

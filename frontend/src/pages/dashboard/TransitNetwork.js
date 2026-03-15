@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useApp } from '@/context/AppContext';
 import { fetchTransitNetwork } from '@/lib/api';
 import MapComponent from '@/components/MapComponent';
 import { Train, Bus, Users, MapPin, Clock } from 'lucide-react';
@@ -6,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function TransitNetwork() {
+  const { activeModes } = useApp();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
@@ -18,7 +20,8 @@ export default function TransitNetwork() {
     return <div className="animate-pulse"><div className="bg-[#141820] rounded-xl h-96 border border-slate-800/60" /></div>;
   }
 
-  const filteredLines = filter === 'all' ? data.lines : data.lines.filter(l => l.status === filter);
+  const filteredLines = (filter === 'all' ? data.lines : data.lines.filter(l => l.status === filter))
+    .filter(l => activeModes.size === 0 || activeModes.has(l.mode));
 
   return (
     <div className="space-y-6" data-testid="transit-network-page">

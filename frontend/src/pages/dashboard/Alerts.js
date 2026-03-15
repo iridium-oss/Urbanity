@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useApp } from '@/context/AppContext';
 import { fetchAlerts } from '@/lib/api';
 import { AlertTriangle, Info, CheckCircle2, Clock, MapPin, Shield, Filter } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -19,6 +20,7 @@ const PROVENANCE_COLORS = {
 };
 
 export default function Alerts() {
+  const { activeModes } = useApp();
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
@@ -31,7 +33,8 @@ export default function Alerts() {
     return <div className="animate-pulse space-y-3">{[...Array(3)].map((_, i) => <div key={i} className="bg-[#141820] rounded-xl h-24 border border-slate-800/60" />)}</div>;
   }
 
-  const filtered = statusFilter === 'all' ? alerts : alerts.filter(a => a.status === statusFilter);
+  const filtered = (statusFilter === 'all' ? alerts : alerts.filter(a => a.status === statusFilter))
+    .filter(a => activeModes.size === 0 || activeModes.has(a.mode));
   const activeCount = alerts.filter(a => a.status === 'active').length;
   const resolvedCount = alerts.filter(a => a.status === 'resolved').length;
 

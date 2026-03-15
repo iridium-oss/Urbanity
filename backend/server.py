@@ -6,6 +6,9 @@ import os
 import logging
 from pathlib import Path
 from typing import Optional
+from pydantic import BaseModel
+import uuid
+from datetime import datetime, timezone
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -16,6 +19,43 @@ db = client[os.environ['DB_NAME']]
 
 app = FastAPI(title="IRIDIUM API", version="1.0.0")
 api_router = APIRouter(prefix="/api")
+
+# ============================================================
+# AUTH MODELS
+# ============================================================
+
+class LoginRequest(BaseModel):
+    name: str
+    email: str
+    role: str
+
+USER_ROLES = [
+    {"id": "executive", "name": "Executive / Jury", "description": "Strategic overview with strongest proof points and visual summaries", "icon": "Crown", "color": "#f59e0b"},
+    {"id": "b2g", "name": "B2G / Public Sector", "description": "Resilience, equity, public transport access, source transparency, and planning support", "icon": "Building2", "color": "#3b82f6"},
+    {"id": "b2b", "name": "B2B / Operator", "description": "Operational dashboard, provider health, route insight, alert management", "icon": "Server", "color": "#8b5cf6"},
+    {"id": "b2c", "name": "B2C / Rider", "description": "Trip planning, route clarity, service alerts, accessibility-aware navigation", "icon": "Smartphone", "color": "#10b981"},
+    {"id": "technical", "name": "Technical / System", "description": "Providers, provenance, forecast status, API readiness, system health", "icon": "Code", "color": "#ef4444"},
+]
+
+@api_router.get("/auth/roles")
+async def get_user_roles():
+    return USER_ROLES
+
+@api_router.post("/auth/login")
+async def login(req: LoginRequest):
+    if not req.name or not req.email or not req.role:
+        return {"error": "Name, email, and role are required"}
+    role_info = next((r for r in USER_ROLES if r["id"] == req.role), USER_ROLES[0])
+    user = {
+        "id": str(uuid.uuid4()),
+        "name": req.name,
+        "email": req.email,
+        "role": req.role,
+        "role_name": role_info["name"],
+        "logged_in_at": datetime.now(timezone.utc).isoformat(),
+    }
+    await db.sessions.insert_one({**user, "_id": user["id"]})
+    return {k: v for k, v in user.items() if k != "_id"}
 
 # ============================================================
 # DEMO DATA - Baku Mobility Intelligence

@@ -245,6 +245,91 @@ class IridiumAPITester:
             ["status", "message"],
             method="POST"
         )
+    
+    def test_user_roles(self):
+        """Test GET /api/auth/roles endpoint"""
+        success, data = self.run_test(
+            "User Roles",
+            "auth/roles",
+            200
+        )
+        if success and isinstance(data, list):
+            print(f"   ✓ Found {len(data)} user roles")
+            expected_roles = ['executive', 'b2g', 'b2b', 'b2c', 'technical']
+            found_roles = [role['id'] for role in data if 'id' in role]
+            for expected_role in expected_roles:
+                if expected_role in found_roles:
+                    print(f"   ✓ Found role: {expected_role}")
+                else:
+                    print(f"   ⚠️  Missing role: {expected_role}")
+                    
+            if len(data) >= 5:
+                print(f"   ✓ Expected 5 roles, found {len(data)}")
+            else:
+                print(f"   ⚠️  Expected 5 roles, only found {len(data)}")
+        return success, data
+
+    def test_login(self):
+        """Test POST /api/auth/login endpoint"""
+        test_data = {
+            "name": "Test User",
+            "email": "test@example.com", 
+            "role": "executive"
+        }
+        
+        success, data = self.run_test(
+            "User Login",
+            "auth/login",
+            200,
+            ["id", "name", "email", "role", "role_name", "logged_in_at"],
+            method="POST",
+            data=test_data
+        )
+        
+        if success:
+            print(f"   ✓ Login successful for user: {data.get('name')}")
+            print(f"   ✓ Role: {data.get('role')} ({data.get('role_name')})")
+            if data.get('id'):
+                print(f"   ✓ User ID generated: {data.get('id')}")
+                
+        return success, data
+        
+    def test_login_validation(self):
+        """Test login validation - missing fields should return error"""
+        # Test missing name
+        test_cases = [
+            {"email": "test@example.com", "role": "executive"},  # missing name
+            {"name": "Test User", "role": "executive"},         # missing email
+            {"name": "Test User", "email": "test@example.com"}, # missing role
+            {"name": "", "email": "test@example.com", "role": "executive"}, # empty name
+        ]
+        
+        all_success = True
+        for i, test_data in enumerate(test_cases):
+            print(f"\n🔍 Testing Login Validation Case {i+1}...")
+            print(f"   Data: {test_data}")
+            
+            try:
+                url = f"{self.base_url}/auth/login"
+                response = requests.post(url, json=test_data, headers={'Content-Type': 'application/json'}, timeout=10)
+                
+                # Should return 200 but with error message in response
+                if response.status_code == 200:
+                    response_data = response.json()
+                    if "error" in response_data:
+                        print(f"   ✅ Validation working - Error: {response_data['error']}")
+                    else:
+                        print(f"   ❌ Expected validation error, but login succeeded")
+                        all_success = False
+                else:
+                    print(f"   ❌ Expected 200 with error, got {response.status_code}")
+                    all_success = False
+                    
+            except Exception as e:
+                print(f"   ❌ Error testing validation: {str(e)}")
+                all_success = False
+                
+        return all_success, {}
 
 def main():
     print("🚀 Starting IRIDIUM Backend API Testing")
@@ -255,6 +340,9 @@ def main():
     # Run all tests
     test_functions = [
         tester.test_health_endpoint,
+        tester.test_user_roles,
+        tester.test_login,
+        tester.test_login_validation,
         tester.test_dashboard_overview,
         tester.test_mobility_modes,
         tester.test_providers,

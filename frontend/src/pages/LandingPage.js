@@ -75,7 +75,7 @@ const Navbar = () => {
           <a href="#team" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">Team</a>
         </div>
         <div className="hidden md:flex items-center gap-3">
-          <Link to="/dashboard">
+          <Link to="/login">
             <Button data-testid="launch-dashboard-btn" className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-5 py-2 text-sm font-medium shadow-lg shadow-blue-600/20">
               Launch Dashboard <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
@@ -91,7 +91,7 @@ const Navbar = () => {
           <a href="#modules" className="block text-sm text-slate-600" onClick={() => setMobileOpen(false)}>Modules</a>
           <a href="#provenance" className="block text-sm text-slate-600" onClick={() => setMobileOpen(false)}>Trust</a>
           <a href="#business" className="block text-sm text-slate-600" onClick={() => setMobileOpen(false)}>Business</a>
-          <Link to="/dashboard" className="block">
+          <Link to="/login" className="block">
             <Button data-testid="mobile-dashboard-btn" className="w-full bg-blue-600 text-white rounded-lg text-sm">Launch Dashboard</Button>
           </Link>
         </div>
@@ -120,7 +120,7 @@ const Hero = () => (
           Built for Baku. Designed for every mode of movement, including wheelchair mobility.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
-          <Link to="/dashboard">
+          <Link to="/login">
             <Button data-testid="hero-dashboard-btn" className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-8 py-3 text-base font-medium shadow-lg shadow-blue-600/20 transition-all">
               Explore the Dashboard <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
@@ -502,7 +502,7 @@ const CTASection = () => (
         <p className="text-lg text-slate-400 max-w-xl mx-auto mb-8 font-light">
           Explore the full dashboard with real Baku mobility data, multimodal routing, equity analytics, and source-aware intelligence.
         </p>
-        <Link to="/dashboard">
+        <Link to="/login">
           <Button data-testid="cta-dashboard-btn" className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg px-10 py-4 text-base font-medium shadow-lg shadow-blue-600/30 transition-all">
             Launch the Dashboard <ArrowRight className="w-5 h-5 ml-2" />
           </Button>

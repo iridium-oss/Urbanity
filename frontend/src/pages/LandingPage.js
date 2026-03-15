@@ -29,7 +29,7 @@ const PROVENANCE_LABELS = {
 const MODE_ICONS = {
   walking: Footprints, wheelchair: Accessibility, bicycle: Bike, e_bike: Zap,
   scooter: CircleDot, e_scooter: Zap, private_car: Car, taxi: Navigation,
-  metro: Train, bus: Bus, minibus: Truck, shuttle: Bus, park_and_ride: ParkingSquare,
+  metro: Train, bus: Bus, minibus: Truck, shuttle: Bus, park_and_ride: Route,
   shared_mobility: Users,
 };
 
@@ -46,8 +46,8 @@ const MODES = [
   { id: 'bus', name: 'Bus', status: 'active' },
   { id: 'minibus', name: 'Minibus', status: 'active' },
   { id: 'shuttle', name: 'Shuttle', status: 'limited' },
-  { id: 'park_and_ride', name: 'Park & Ride', status: 'planned' },
-  { id: 'shared_mobility', name: 'Shared Mobility', status: 'planned' },
+  { id: 'park_and_ride', name: 'Transfer / Multimodal', status: 'active' },
+  { id: 'shared_mobility', name: 'Future Shared Mobility', status: 'planned' },
 ];
 
 const Navbar = () => {
@@ -203,8 +203,9 @@ const MultimodalSection = () => (
           Every mode of movement, one platform
         </h2>
         <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto font-light">
-          IRIDIUM supports 14 mobility modes from walking and wheelchair routing to metro, bus, taxi, and emerging micro-mobility.
-          This is not just another transit app.
+          IRIDIUM supports 14 mobility modes: walking, wheelchair mobility, bicycle, e-bike, scooter, e-scooter,
+          private car, taxi and ride-hailing, metro, bus, minibus, shuttle, transfer-based multimodal journeys,
+          and future shared mobility. This is not just another transit app.
         </p>
       </motion.div>
       <motion.div {...fadeIn} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
@@ -399,10 +400,10 @@ const Roadmap = () => (
       </motion.div>
       <div className="max-w-3xl mx-auto space-y-0">
         {[
-          { phase: 'Phase 1', title: 'Baku Core', period: 'Q1 2025', status: 'active', items: ['Official transit feeds', 'Multimodal routing engine', 'Provenance framework', 'Dashboard MVP'] },
-          { phase: 'Phase 2', title: 'Intelligence Layer', period: 'Q2-Q3 2025', status: 'next', items: ['Congestion forecasting', 'Anomaly detection', 'Earth observation integration', 'Equity analytics'] },
-          { phase: 'Phase 3', title: 'Partner & Scale', period: 'Q4 2025', status: 'planned', items: ['Ride-hailing API integrations', 'Micro-mobility partners', 'B2G pilot deployments', 'Mobile-ready interfaces'] },
-          { phase: 'Phase 4', title: 'Regional Expansion', period: '2026', status: 'planned', items: ['Ganja, Sumgait coverage', 'White-label platform', 'API marketplace', 'On-premise deployments'] },
+          { phase: 'Phase 1', title: 'Baku Core', period: 'Q1 2026', status: 'active', items: ['Official transit feeds integration', 'Multimodal routing engine', 'Provenance framework', 'Dashboard MVP with 9 modules'] },
+          { phase: 'Phase 2', title: 'Intelligence Layer', period: 'Q2-Q3 2026', status: 'next', items: ['Congestion forecasting refinement', 'Anomaly detection system', 'Earth observation integration', 'Equity analytics expansion'] },
+          { phase: 'Phase 3', title: 'Partner & Scale', period: 'Q4 2026', status: 'planned', items: ['Ride-hailing API integrations', 'Micro-mobility partners', 'B2G pilot deployments', 'Mobile-ready interfaces'] },
+          { phase: 'Phase 4', title: 'Regional Expansion', period: '2027', status: 'planned', items: ['Ganja, Sumgait coverage', 'White-label platform', 'API marketplace', 'On-premise deployments'] },
         ].map((r, i) => (
           <motion.div key={r.phase} {...fadeUp} className="relative flex gap-6 pb-12 last:pb-0">
             <div className="flex flex-col items-center">
@@ -524,7 +525,7 @@ const Footer = () => (
         <p className="text-sm text-slate-500">Multimodal Urban Mobility Intelligence for Azerbaijan</p>
         <div className="flex items-center gap-4 text-xs text-slate-600">
           <span>Baku, Azerbaijan</span>
-          <span>2025</span>
+          <span>2026</span>
         </div>
       </div>
     </div>

@@ -20,8 +20,11 @@ export default function TransitNetwork() {
     return <div className="animate-pulse"><div className="bg-[#141820] rounded-xl h-96 border border-slate-800/60" /></div>;
   }
 
-  const filteredLines = (filter === 'all' ? data.lines : data.lines.filter(l => l.status === filter))
-    .filter(l => activeModes.size === 0 || activeModes.has(l.mode));
+  const filteredLines = (filter === 'all' ? data.lines : data.lines.filter(l => {
+    if (filter === 'active') return l.status === 'active';
+    if (filter === 'planned') return l.status === 'planned';
+    return l.mode === filter;
+  })).filter(l => activeModes.size === 0 || activeModes.has(l.mode));
 
   return (
     <div className="space-y-6" data-testid="transit-network-page">
@@ -52,11 +55,15 @@ export default function TransitNetwork() {
           <MapComponent lines={filteredLines} height="450px" dark={true} zoom={12} />
         </div>
         <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5 overflow-y-auto iridium-scroll" style={{ maxHeight: '450px' }} data-testid="transit-lines-panel">
-          <h3 className="font-heading text-sm font-medium text-white mb-4">Metro Lines</h3>
+          <h3 className="font-heading text-sm font-medium text-white mb-4">Transit Lines</h3>
           <Tabs defaultValue="all" onValueChange={setFilter}>
-            <TabsList className="bg-slate-800/60 mb-4">
+            <TabsList className="bg-slate-800/60 flex-wrap h-auto gap-0.5 p-1">
               <TabsTrigger value="all" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">All</TabsTrigger>
-              <TabsTrigger value="active" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Active</TabsTrigger>
+              <TabsTrigger value="metro" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Metro</TabsTrigger>
+              <TabsTrigger value="bus" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Bus</TabsTrigger>
+              <TabsTrigger value="minibus" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Minibus</TabsTrigger>
+              <TabsTrigger value="bicycle" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Bicycle</TabsTrigger>
+              <TabsTrigger value="shuttle" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Shuttle</TabsTrigger>
               <TabsTrigger value="planned" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Planned</TabsTrigger>
             </TabsList>
           </Tabs>
@@ -71,12 +78,15 @@ export default function TransitNetwork() {
                   </Badge>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs text-slate-400">
-                  <div className="flex items-center gap-1"><MapPin className="w-3 h-3" />{line.stations} stations</div>
-                  <div className="flex items-center gap-1"><Clock className="w-3 h-3" />Every {line.frequency_min} min</div>
+                  <div className="flex items-center gap-1"><MapPin className="w-3 h-3" />{line.stations} stops</div>
+                  <div className="flex items-center gap-1"><Clock className="w-3 h-3" />{line.frequency_min > 0 ? `Every ${line.frequency_min} min` : 'Open'}</div>
                   <div>Length: {line.length_km} km</div>
-                  <div>Hours: {line.hours}</div>
+                  <div>{line.fare_azn > 0 ? `${line.fare_azn.toFixed(2)} AZN` : 'Free'}</div>
                 </div>
-                <div className="mt-2">
+                <div className="mt-2 flex items-center gap-1.5">
+                  <Badge variant="outline" className={`text-xs ${line.mode === 'metro' ? 'text-red-400 border-red-500/20' : line.mode === 'bus' ? 'text-blue-400 border-blue-500/20' : line.mode === 'minibus' ? 'text-purple-400 border-purple-500/20' : line.mode === 'bicycle' ? 'text-cyan-400 border-cyan-500/20' : 'text-pink-400 border-pink-500/20'}`}>
+                    {line.mode}
+                  </Badge>
                   <Badge variant="outline" className="text-xs text-emerald-400 border-emerald-500/20 bg-emerald-500/5">
                     {line.provenance}
                   </Badge>

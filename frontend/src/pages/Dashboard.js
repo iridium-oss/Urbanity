@@ -24,6 +24,7 @@ import Equity from '@/pages/dashboard/Equity';
 import EarthObservation from '@/pages/dashboard/EarthObservation';
 import Provenance from '@/pages/dashboard/Provenance';
 import DemoGuide from '@/pages/dashboard/DemoGuide';
+import ModeDetailPanel from '@/components/ModeDetailPanel';
 
 const SECTIONS = [
   { id: 'overview', name: 'Executive Overview', icon: LayoutDashboard },
@@ -60,7 +61,7 @@ const VIEWS = {
   'earth-observation': EarthObservation, 'provenance': Provenance, 'demo-guide': DemoGuide,
 };
 
-const MobilityModeBar = ({ modes, activeModes, toggleMode, clearModes }) => {
+const MobilityModeBar = ({ modes, activeModes, toggleMode, clearModes, onModeDetail }) => {
   if (!modes.length) return null;
   const hasActive = activeModes.size > 0;
   return (
@@ -82,6 +83,7 @@ const MobilityModeBar = ({ modes, activeModes, toggleMode, clearModes }) => {
                 <TooltipTrigger asChild>
                   <button
                     onClick={() => toggleMode(mode.id)}
+                    onDoubleClick={() => onModeDetail && onModeDetail(mode.id)}
                     className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap transition-all duration-200 border ${
                       isActive
                         ? 'bg-blue-600/15 border-blue-500/40 text-blue-300'
@@ -100,6 +102,7 @@ const MobilityModeBar = ({ modes, activeModes, toggleMode, clearModes }) => {
                   <p className="font-medium text-white">{mode.name}</p>
                   <p className="text-slate-400">{mode.description}</p>
                   <p className="text-slate-500 mt-1">Status: {mode.status} / Source: {mode.provenance.replace(/_/g, ' ')}</p>
+                  <p className="text-slate-600 mt-0.5 italic">Click to filter / Double-click for details</p>
                 </TooltipContent>
               </Tooltip>
             );
@@ -117,6 +120,7 @@ export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobilityModes, setMobilityModes] = useState([]);
+  const [detailMode, setDetailMode] = useState(null);
 
   useEffect(() => {
     fetchMobilityModes().then(setMobilityModes).catch(console.error);
@@ -255,7 +259,7 @@ export default function Dashboard() {
         </header>
 
         {/* Mobility Mode Selector Bar */}
-        <MobilityModeBar modes={mobilityModes} activeModes={activeModes} toggleMode={toggleMode} clearModes={clearModes} />
+        <MobilityModeBar modes={mobilityModes} activeModes={activeModes} toggleMode={toggleMode} clearModes={clearModes} onModeDetail={setDetailMode} />
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
@@ -299,6 +303,7 @@ export default function Dashboard() {
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto iridium-scroll p-4 lg:p-6" data-testid="dashboard-content">
+          {detailMode && <ModeDetailPanel modeId={detailMode} onClose={() => setDetailMode(null)} />}
           <ActiveView />
         </main>
       </div>

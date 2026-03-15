@@ -6,6 +6,7 @@ const api = axios.create({ baseURL: API, timeout: 15000 });
 
 export const fetchOverview = () => api.get('/dashboard/overview').then(r => r.data);
 export const fetchMobilityModes = () => api.get('/mobility-modes').then(r => r.data);
+export const fetchModeDetail = (modeId) => api.get(`/mobility-modes/${modeId}/detail`).then(r => r.data);
 export const fetchProviders = () => api.get('/providers').then(r => r.data);
 export const fetchAlerts = (params) => api.get('/alerts', { params }).then(r => r.data);
 export const fetchTransitNetwork = () => api.get('/transit/network').then(r => r.data);

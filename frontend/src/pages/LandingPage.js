@@ -111,7 +111,7 @@ const Hero = () => (
         </Badge>
         <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1] mb-6">
           Making city movement<br />
-          <span className="text-blue-600">understandable, equitable,</span><br />
+          <span className="text-[#030f4f]">understandable, equitable,</span><br />
           and trustworthy
         </h1>
         <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl mb-8 font-light">
@@ -120,7 +120,7 @@ const Hero = () => (
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <Link to="/login">
-            <Button data-testid="hero-dashboard-btn" className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-8 py-3 text-base font-medium shadow-lg shadow-blue-600/20 transition-all">
+            <Button data-testid="hero-dashboard-btn" className="bg-[#030f4f] hover:bg-[#041a9c] text-white rounded-lg px-8 py-3 text-base font-medium shadow-lg shadow-blue-600/20 transition-all">
               Explore the Dashboard <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </Link>

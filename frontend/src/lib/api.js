@@ -1,8 +1,22 @@
 import axios from 'axios';
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+const API = `${BACKEND_URL}/api`;
 
 const api = axios.create({ baseURL: API, timeout: 15000 });
+
+api.interceptors.request.use(config => {
+  try {
+    const stored = localStorage.getItem('urbanivity_user');
+    if (stored) {
+      const user = JSON.parse(stored);
+      if (user.access_token) {
+        config.headers.Authorization = `Bearer ${user.access_token}`;
+      }
+    }
+  } catch (error) {}
+  return config;
+});
 
 export const fetchOverview = () => api.get('/dashboard/overview').then(r => r.data);
 export const fetchMobilityModes = () => api.get('/mobility-modes').then(r => r.data);

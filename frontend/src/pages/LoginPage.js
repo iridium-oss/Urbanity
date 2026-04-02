@@ -12,8 +12,8 @@ import { Badge } from '@/components/ui/badge';
 import axios from 'axios';
 import Logo from '@/components/Logo';
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
-
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
+const API = `${BACKEND_URL}/api`;
 const ROLE_ICONS = { executive: Crown, b2g: Building2, b2b: Server, b2c: Smartphone, technical: Code };
 
 const ROLE_DETAILS = {
@@ -100,11 +100,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#0B0E14] flex" data-testid="login-page">
       {/* Left: Branding Panel */}
-      <div className="hidden lg:flex lg:w-[45%] relative overflow-hidden flex-col justify-between p-12 bg-gradient-to-br from-[#0D1117] to-[#0B0E14]">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-600 rounded-full blur-[120px]" />
-          <div className="absolute bottom-20 right-10 w-56 h-56 bg-orange-500 rounded-full blur-[100px]" />
-        </div>
+      <div className="hidden lg:flex lg:w-[45%] relative overflow-hidden flex-col justify-between p-12 bg-gradient-to-br bg-black">
+     
         <div className="relative z-10">
           <Link to="/" className="flex items-center gap-3 mb-16">
             <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="md:w-[40%]  " />

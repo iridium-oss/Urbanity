@@ -1,4 +1,5 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -8,17 +9,32 @@ from pathlib import Path
 from typing import Optional
 from pydantic import BaseModel
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+import jwt
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
+client = AsyncIOMotorClient(mongo_url, serverSelectionTimeoutMS=2000)
+db = client[os.environ.get('DB_NAME', 'urbanivity')]
 
 app = FastAPI(title="Urbanivity API", version="1.0.0")
 api_router = APIRouter(prefix="/api")
+
+SECRET_KEY = os.environ.get('SECRET_KEY', 'default_fallback_secret_key')
+ALGORITHM = "HS256"
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/login")
+
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid auth credentials")
+        return payload
+    except jwt.PyJWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid auth credentials")
 
 # ============================================================
 # AUTH MODELS
@@ -44,18 +60,29 @@ async def get_user_roles():
 @api_router.post("/auth/login")
 async def login(req: LoginRequest):
     if not req.name or not req.email or not req.role:
-        return {"error": "Name, email, and role are required"}
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Name, email, and role are required")
     role_info = next((r for r in USER_ROLES if r["id"] == req.role), USER_ROLES[0])
+    user_id = str(uuid.uuid4())
     user = {
-        "id": str(uuid.uuid4()),
+        "id": user_id,
         "name": req.name,
         "email": req.email,
         "role": req.role,
         "role_name": role_info["name"],
-        "logged_in_at": datetime.now(timezone.utc).isoformat(),
     }
-    await db.sessions.insert_one({**user, "_id": user["id"]})
-    return {k: v for k, v in user.items() if k != "_id"}
+    
+    # Bypass DB insert local timeout issues
+    pass
+    
+    to_encode = {"sub": user_id, "role": req.role, "name": req.name}
+    expire = datetime.now(timezone.utc) + timedelta(minutes=60*24*7)
+    to_encode.update({"exp": int(expire.timestamp())})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    
+    response_data = {k: v for k, v in user.items() if k != "_id"}
+    response_data["access_token"] = encoded_jwt
+    response_data["token_type"] = "bearer"
+    return response_data
 
 # ============================================================
 # DEMO DATA - Baku Mobility Intelligence
@@ -411,19 +438,19 @@ async def root():
     return {"message": "Urbanivity API", "version": "1.0.0", "status": "operational"}
 
 @api_router.get("/dashboard/overview")
-async def get_dashboard_overview():
+async def get_dashboard_overview(current_user: dict = Depends(get_current_user)):
     return OVERVIEW_STATS
 
 @api_router.get("/mobility-modes")
-async def get_mobility_modes():
+async def get_mobility_modes(current_user: dict = Depends(get_current_user)):
     return MOBILITY_MODES
 
 @api_router.get("/providers")
-async def get_providers():
+async def get_providers(current_user: dict = Depends(get_current_user)):
     return PROVIDERS
 
 @api_router.get("/alerts")
-async def get_alerts(status: Optional[str] = None, severity: Optional[str] = None):
+async def get_alerts(status: Optional[str] = None, severity: Optional[str] = None, current_user: dict = Depends(get_current_user)):
     result = ALERTS
     if status:
         result = [a for a in result if a["status"] == status]
@@ -432,12 +459,12 @@ async def get_alerts(status: Optional[str] = None, severity: Optional[str] = Non
     return result
 
 @api_router.get("/transit/network")
-async def get_transit_network():
+async def get_transit_network(current_user: dict = Depends(get_current_user)):
     total_stations = sum(l["stations"] for l in TRANSIT_LINES)
     return {"lines": TRANSIT_LINES, "total_stations": total_stations, "total_routes": len(TRANSIT_LINES), "daily_ridership": 1680000}
 
 @api_router.get("/mobility-modes/{mode_id}/detail")
-async def get_mode_detail(mode_id: str):
+async def get_mode_detail(mode_id: str, current_user: dict = Depends(get_current_user)):
     mode = next((m for m in MOBILITY_MODES if m["id"] == mode_id), None)
     if not mode:
         return {"error": "Mode not found"}
@@ -455,29 +482,29 @@ async def get_mode_detail(mode_id: str):
     }
 
 @api_router.get("/routing/demo")
-async def get_demo_route():
+async def get_demo_route(current_user: dict = Depends(get_current_user)):
     return DEMO_ROUTE
 
 @api_router.get("/forecasting/congestion")
-async def get_congestion_forecast(corridor: Optional[str] = None):
+async def get_congestion_forecast(corridor: Optional[str] = None, current_user: dict = Depends(get_current_user)):
     c = corridor or "Heydar Aliyev Ave"
     data = CONGESTION_FORECAST["corridors"].get(c, CONGESTION_FORECAST["corridors"]["Heydar Aliyev Ave"])
     return {"corridor": c, "forecast": data, "model": CONGESTION_FORECAST["model"], "last_trained": CONGESTION_FORECAST["last_trained"], "available_corridors": list(CONGESTION_FORECAST["corridors"].keys())}
 
 @api_router.get("/equity/districts")
-async def get_equity_districts():
+async def get_equity_districts(current_user: dict = Depends(get_current_user)):
     return DISTRICTS
 
 @api_router.get("/earth-observation")
-async def get_earth_observation():
+async def get_earth_observation(current_user: dict = Depends(get_current_user)):
     return EARTH_OBSERVATION
 
 @api_router.get("/demo/guide")
-async def get_demo_guide():
+async def get_demo_guide(current_user: dict = Depends(get_current_user)):
     return {"steps": DEMO_GUIDE_STEPS, "total_duration_min": 10}
 
 @api_router.post("/demo/reset")
-async def reset_demo():
+async def reset_demo(current_user: dict = Depends(get_current_user)):
     return {"status": "reset", "message": "Demo state reset to initial configuration"}
 
 app.include_router(api_router)

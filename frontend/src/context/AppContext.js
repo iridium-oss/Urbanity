@@ -9,6 +9,20 @@ export function AppProvider({ children }) {
   const [activeModes, setActiveModes] = useState(new Set());
   const [user, setUser] = useState(null);
 
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('urbanivity_theme') || 'light'
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('urbanivity_theme', theme);
+  }, [theme]);
+
   useEffect(() => {
     const stored = localStorage.getItem('urbanivity_user');
     if (stored) {
@@ -36,6 +50,8 @@ export function AppProvider({ children }) {
 
   const clearModes = () => setActiveModes(new Set());
 
+  const toggleTheme = () => setTheme(prev => prev === 'light' ? 'dark' : 'light');
+
   return (
     <AppContext.Provider value={{
       demoMode, setDemoMode,
@@ -43,6 +59,7 @@ export function AppProvider({ children }) {
       activeSection, setActiveSection,
       activeModes, toggleMode, clearModes,
       user, setUser, logout,
+      theme, setTheme, toggleTheme,
     }}>
       {children}
     </AppContext.Provider>

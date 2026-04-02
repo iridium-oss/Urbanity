@@ -4,7 +4,7 @@ import { useApp } from '@/context/AppContext';
 import { motion } from 'framer-motion';
 import {
   Layers, Crown, Building2, Server, Smartphone, Code,
-  ArrowRight, ChevronRight, Shield, Mail, User
+  ArrowRight, ChevronRight, Shield, Mail, User, Sun, Moon
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -43,7 +43,7 @@ const fadeUp = { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, 
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { setUser, setAudienceMode } = useApp();
+  const { setUser, setAudienceMode, theme, toggleTheme } = useApp();
   const [roles, setRoles] = useState([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -98,18 +98,18 @@ export default function LoginPage() {
   const details = selectedRole ? ROLE_DETAILS[selectedRole] : null;
 
   return (
-    <div className="min-h-screen bg-[#0B0E14] flex" data-testid="login-page">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0B0E14] flex" data-testid="login-page">
       {/* Left: Branding Panel */}
-      <div className="hidden lg:flex lg:w-[45%] relative overflow-hidden flex-col justify-between p-12 bg-gradient-to-br bg-black">
+      <div className="hidden lg:flex lg:w-[45%] relative overflow-hidden flex-col justify-between p-12 bg-gradient-to-br bg-slate-100 dark:bg-black">
      
         <div className="relative z-10">
           <Link to="/" className="flex items-center gap-3 mb-16">
             <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="md:w-[40%]  " />
           </Link>
-          <h1 className="font-heading text-4xl font-bold text-white leading-tight mb-6">
+          <h1 className="font-heading text-4xl font-bold text-slate-900 dark:text-white leading-tight mb-6">
             Urban Mobility<br />Intelligence Platform
           </h1>
-          <p className="text-slate-400 text-lg leading-relaxed max-w-md font-light">
+          <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed max-w-md font-light">
             Provenance-aware multimodal mobility intelligence for Azerbaijani cities.
             Select your perspective to access the dashboard tailored to your needs.
           </p>
@@ -127,16 +127,20 @@ export default function LoginPage() {
       </div>
 
       {/* Right: Login Form */}
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-12">
+      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 relative">
+        <button onClick={toggleTheme} className="absolute right-6 top-6 p-2 text-slate-500 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md shadow-sm transition-colors z-50 flex items-center gap-2" data-testid="login-theme-toggle">
+          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          <span className="text-xs font-medium">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+        </button>
         <motion.div {...fadeUp} className="w-full max-w-lg">
           {/* Mobile Logo */}
           <div className="lg:hidden flex items-center gap-2.5 mb-10">
             <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="w-[60%] h-[60%] " />
-            <span className="font-heading font-bold text-lg text-white tracking-tight"></span>
+            <span className="font-heading font-bold text-lg text-slate-900 dark:text-white tracking-tight"></span>
           </div>
 
-          <h2 className="font-heading text-2xl font-semibold text-white mb-2">Access Dashboard</h2>
-          <p className="text-sm text-slate-400 mb-8">Enter your details and select a dashboard perspective</p>
+          <h2 className="font-heading text-2xl font-semibold text-slate-900 dark:text-white mb-2">Access Dashboard</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mb-8">Enter your details and select a dashboard perspective</p>
 
           {error && (
             <div className="bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3 mb-6 text-sm text-red-400" data-testid="login-error">
@@ -154,7 +158,7 @@ export default function LoginPage() {
                   value={name}
                   onChange={e => setName(e.target.value)}
                   placeholder="Your name"
-                  className="bg-[#141820] border-slate-700 text-white pl-10 h-11 focus:border-blue-500 focus:ring-blue-500/20"
+                  className="bg-white dark:bg-[#141820] border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white pl-10 h-11 focus:border-blue-500 focus:ring-blue-500/20"
                   data-testid="login-name-input"
                 />
               </div>
@@ -168,7 +172,7 @@ export default function LoginPage() {
                   onChange={e => setEmail(e.target.value)}
                   placeholder="Any email or username"
                   type="text"
-                  className="bg-[#141820] border-slate-700 text-white pl-10 h-11 focus:border-blue-500 focus:ring-blue-500/20"
+                  className="bg-white dark:bg-[#141820] border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white pl-10 h-11 focus:border-blue-500 focus:ring-blue-500/20"
                   data-testid="login-email-input"
                 />
               </div>
@@ -187,7 +191,7 @@ export default function LoginPage() {
                   onClick={() => setSelectedRole(role.id)}
                   className={`text-left rounded-xl p-4 border transition-all duration-200 ${isSelected
                     ? 'border-blue-500 bg-blue-500/10 ring-1 ring-blue-500/20'
-                    : 'border-slate-800 bg-[#141820] hover:border-slate-600'
+                    : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#141820] hover:border-slate-400 dark:hover:border-slate-600'
                     }`}
                   data-testid={`role-${role.id}`}
                 >
@@ -196,7 +200,7 @@ export default function LoginPage() {
                       <Icon className="w-4 h-4" style={{ color: role.color }} strokeWidth={1.5} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-heading text-sm font-medium text-white truncate">{role.name}</div>
+                      <div className="font-heading text-sm font-medium text-slate-900 dark:text-white truncate">{role.name}</div>
                       <div className="text-xs text-slate-500 truncate">{role.description}</div>
                     </div>
                   </div>
@@ -210,7 +214,7 @@ export default function LoginPage() {
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              className="bg-[#141820] border border-slate-800 rounded-xl p-4 mb-6"
+              className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800 rounded-xl p-4 mb-6"
               data-testid="role-details"
             >
               <p className="text-xs text-slate-500 mb-2">Highlighted sections for this perspective:</p>
@@ -219,7 +223,7 @@ export default function LoginPage() {
                   <Badge key={s} variant="outline" className="text-xs text-blue-400 border-blue-500/30 bg-blue-500/5">{s}</Badge>
                 ))}
               </div>
-              <p className="text-xs text-slate-400">{details.focus}</p>
+              <p className="text-xs text-slate-600 dark:text-slate-400">{details.focus}</p>
             </motion.div>
           )}
 
@@ -227,14 +231,14 @@ export default function LoginPage() {
           <Button
             onClick={handleLogin}
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-500 text-white rounded-lg h-12 text-sm font-medium shadow-lg shadow-blue-600/20 transition-all"
+            className="w-full bg-blue-600 hover:bg-blue-500 text-white dark:text-white rounded-lg h-12 text-sm font-medium shadow-lg shadow-blue-600/20 transition-all"
             data-testid="login-submit-btn"
           >
             {loading ? 'Entering...' : 'Enter Dashboard'} <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
 
           <div className="mt-6 text-center">
-            <Link to="/" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">
+            <Link to="/" className="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
               Back to Landing Page
             </Link>
           </div>

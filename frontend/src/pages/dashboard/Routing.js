@@ -50,9 +50,9 @@ export default function Routing() {
   if (loading || !data) {
     return (
       <div className="animate-pulse space-y-4">
-        <div className="bg-[#141820] rounded-xl h-24 border border-slate-800/60" />
+        <div className="bg-white dark:bg-[#141820] rounded-xl h-24 border border-slate-200 dark:border-slate-800/60" />
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => <div key={i} className="bg-[#141820] rounded-xl h-48 border border-slate-800/60" />)}
+          {[...Array(6)].map((_, i) => <div key={i} className="bg-white dark:bg-[#141820] rounded-xl h-48 border border-slate-200 dark:border-slate-800/60" />)}
         </div>
       </div>
     );
@@ -88,21 +88,21 @@ export default function Routing() {
   return (
     <div className="space-y-6" data-testid="routing-page">
       <div>
-        <h2 className="font-heading text-xl font-semibold text-white">Routing Intelligence</h2>
-        <p className="text-sm text-slate-400 mt-1">Compare all 14 mobility modes for any journey across Baku</p>
+        <h2 className="font-heading text-xl font-semibold text-slate-900 dark:text-white">Routing Intelligence</h2>
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Compare all 14 mobility modes for any journey across Baku</p>
       </div>
 
       {/* Origin / Destination */}
-      <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5" data-testid="route-endpoints">
+      <div className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl p-5" data-testid="route-endpoints">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="flex-1">
             <label className="text-xs text-slate-500 font-mono uppercase tracking-wider mb-1 block">Origin</label>
-            <div className="bg-slate-900/60 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white">{data.origin.name}</div>
+            <div className="bg-white dark:bg-slate-900/60 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white">{data.origin.name}</div>
           </div>
           <ArrowRight className="w-5 h-5 text-slate-600 hidden sm:block mt-5" />
           <div className="flex-1">
             <label className="text-xs text-slate-500 font-mono uppercase tracking-wider mb-1 block">Destination</label>
-            <div className="bg-slate-900/60 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white">{data.destination.name}</div>
+            <div className="bg-white dark:bg-slate-900/60 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-900 dark:text-white">{data.destination.name}</div>
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@ export default function Routing() {
       {/* Filters */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <Tabs value={category} onValueChange={setCategory}>
-          <TabsList className="bg-slate-800/60">
+          <TabsList className="bg-white dark:bg-slate-800/60">
             {CATEGORIES.map(c => (
               <TabsTrigger key={c.id} value={c.id} className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">{c.name}</TabsTrigger>
             ))}
@@ -122,7 +122,7 @@ export default function Routing() {
             <button
               key={s}
               onClick={() => setSortBy(s)}
-              className={`text-xs px-2.5 py-1 rounded-md border transition-all ${sortBy === s ? 'border-blue-500 text-blue-400 bg-blue-500/10' : 'border-slate-700 text-slate-500 hover:text-slate-300'}`}
+              className={`text-xs px-2.5 py-1 rounded-md border transition-all ${sortBy === s ? 'border-blue-500 text-blue-400 bg-blue-500/10' : 'border-slate-300 dark:border-slate-700 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
               data-testid={`sort-${s}`}
             >
               {s === 'time' ? 'Time' : s === 'cost' ? 'Cost' : s === 'emissions' ? 'CO2' : 'Reliability'}
@@ -143,8 +143,8 @@ export default function Routing() {
           return (
             <div
               key={opt.id}
-              className={`bg-[#141820] border rounded-xl transition-all duration-200 overflow-hidden ${
-                isSelected ? 'border-blue-500 ring-1 ring-blue-500/20' : 'border-slate-800/60 hover:border-slate-700'
+              className={`bg-white dark:bg-[#141820] border rounded-xl transition-all duration-200 overflow-hidden ${
+                isSelected ? 'border-blue-500 ring-1 ring-blue-500/20' : 'border-slate-200 dark:border-slate-800/60 hover:border-slate-300 dark:hover:border-slate-700'
               } ${isPlanned ? 'opacity-60' : ''}`}
               data-testid={`route-option-${opt.id}`}
             >
@@ -158,7 +158,7 @@ export default function Routing() {
                     <Icon className="w-5 h-5" style={{ color }} strokeWidth={1.5} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-heading text-sm font-medium text-white truncate">{opt.name}</h3>
+                    <h3 className="font-heading text-sm font-medium text-slate-900 dark:text-white truncate">{opt.name}</h3>
                     <div className="flex items-center gap-1.5 mt-0.5">
                       {opt.modes.slice(0, 4).map((m, i) => {
                         const MIcon = MODE_ICONS[m] || Route;
@@ -177,27 +177,27 @@ export default function Routing() {
                 </div>
 
                 {isPlanned ? (
-                  <div className="bg-slate-800/40 rounded-lg p-3 text-center">
+                  <div className="bg-slate-50 dark:bg-slate-800/40 rounded-lg p-3 text-center">
                     <p className="text-xs text-slate-500">Planned for Q3 2026</p>
-                    <Badge variant="outline" className="text-xs text-slate-400 border-slate-600 mt-2">configuration_required</Badge>
+                    <Badge variant="outline" className="text-xs text-slate-600 dark:text-slate-400 border-slate-600 mt-2">configuration_required</Badge>
                   </div>
                 ) : (
                   <>
                     {/* Metrics */}
                     <div className="grid grid-cols-2 gap-2 text-xs">
-                      <div className="flex items-center gap-1.5 text-slate-400">
+                      <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                         <Clock className="w-3 h-3 flex-shrink-0" />
                         <span className="font-mono">{opt.time_min} min</span>
                       </div>
-                      <div className="flex items-center gap-1.5 text-slate-400">
+                      <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                         <Banknote className="w-3 h-3 flex-shrink-0" />
                         <span className="font-mono">{opt.cost_azn > 0 ? `${opt.cost_azn.toFixed(2)} AZN` : 'Free'}</span>
                       </div>
-                      <div className="flex items-center gap-1.5 text-slate-400">
+                      <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                         <Leaf className="w-3 h-3 flex-shrink-0" />
                         <span className="font-mono">{opt.emissions_g}g CO2</span>
                       </div>
-                      <div className="flex items-center gap-1.5 text-slate-400">
+                      <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                         <Shield className="w-3 h-3 flex-shrink-0" />
                         <span className="font-mono">{Math.round(opt.reliability * 100)}%</span>
                       </div>
@@ -209,7 +209,7 @@ export default function Routing() {
                         opt.accessibility === 'full' ? 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' :
                         opt.accessibility === 'partial' ? 'text-amber-400 border-amber-500/30 bg-amber-500/10' :
                         opt.accessibility === 'limited' ? 'text-orange-400 border-orange-500/30 bg-orange-500/10' :
-                        'text-slate-400 border-slate-600 bg-slate-800/50'
+                        'text-slate-600 dark:text-slate-400 border-slate-600 bg-slate-100 dark:bg-slate-800/50'
                       }`}>
                         <Accessibility className="w-3 h-3 mr-1" />
                         {opt.accessibility === 'full' ? 'Fully Accessible' :
@@ -224,7 +224,7 @@ export default function Routing() {
 
               {/* Expanded Segments */}
               {isExpanded && !isPlanned && opt.segments.length > 0 && (
-                <div className="border-t border-slate-800/40 p-4 bg-slate-900/30">
+                <div className="border-t border-slate-200 dark:border-slate-800/40 p-4 bg-white dark:bg-slate-900/30">
                   <h4 className="text-xs text-slate-500 font-mono uppercase tracking-wider mb-3">Route Segments</h4>
                   <div className="space-y-0">
                     {opt.segments.map((seg, i) => {
@@ -236,11 +236,11 @@ export default function Routing() {
                             <div className="w-7 h-7 rounded-full flex items-center justify-center border" style={{ borderColor: `${sColor}50`, backgroundColor: `${sColor}10` }}>
                               <SIcon className="w-3.5 h-3.5" style={{ color: sColor }} strokeWidth={1.5} />
                             </div>
-                            {i < opt.segments.length - 1 && <div className="w-0.5 flex-1 bg-slate-800 my-0.5" />}
+                            {i < opt.segments.length - 1 && <div className="w-0.5 flex-1 bg-slate-100 dark:bg-slate-800 my-0.5" />}
                           </div>
                           <div className="flex-1 pb-3">
                             <div className="flex items-center gap-2 mb-0.5">
-                              <span className="text-xs font-medium text-slate-300 capitalize">{seg.mode.replace('_', ' ')}</span>
+                              <span className="text-xs font-medium text-slate-700 dark:text-slate-300 capitalize">{seg.mode.replace('_', ' ')}</span>
                               {seg.line && <Badge variant="outline" className="text-[10px] text-red-400 border-red-500/20 py-0 h-4">{seg.line}</Badge>}
                               {seg.route && <Badge variant="outline" className="text-[10px] text-blue-400 border-blue-500/20 py-0 h-4">{seg.route}</Badge>}
                             </div>
@@ -260,12 +260,12 @@ export default function Routing() {
 
       {/* Summary comparison */}
       {sorted.length > 0 && sorted[0].primary_mode !== 'shared_mobility' && (
-        <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5" data-testid="route-comparison-summary">
-          <h3 className="font-heading text-sm font-medium text-white mb-3">Quick Comparison</h3>
+        <div className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl p-5" data-testid="route-comparison-summary">
+          <h3 className="font-heading text-sm font-medium text-slate-900 dark:text-white mb-3">Quick Comparison</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="text-slate-500 font-mono uppercase tracking-wider border-b border-slate-800/40">
+                <tr className="text-slate-500 font-mono uppercase tracking-wider border-b border-slate-200 dark:border-slate-800/40">
                   <th className="text-left p-2">Mode</th>
                   <th className="text-right p-2">Time</th>
                   <th className="text-right p-2">Cost</th>
@@ -278,17 +278,17 @@ export default function Routing() {
                 {sorted.filter(o => o.primary_mode !== 'shared_mobility').map(opt => {
                   const Icon = MODE_ICONS[opt.primary_mode] || Route;
                   return (
-                    <tr key={opt.id} className="border-b border-slate-800/20 hover:bg-slate-800/20">
+                    <tr key={opt.id} className="border-b border-slate-200 dark:border-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800/40">
                       <td className="p-2">
                         <div className="flex items-center gap-2">
                           <Icon className="w-3.5 h-3.5" style={{ color: MODE_COLORS[opt.primary_mode] }} strokeWidth={1.5} />
-                          <span className="text-slate-300">{opt.name}</span>
+                          <span className="text-slate-700 dark:text-slate-300">{opt.name}</span>
                         </div>
                       </td>
-                      <td className="p-2 text-right font-mono text-slate-400">{opt.time_min} min</td>
-                      <td className="p-2 text-right font-mono text-slate-400">{opt.cost_azn > 0 ? `${opt.cost_azn.toFixed(2)}` : 'Free'}</td>
-                      <td className="p-2 text-right font-mono text-slate-400">{opt.emissions_g}g</td>
-                      <td className="p-2 text-right font-mono text-slate-400">{Math.round(opt.reliability * 100)}%</td>
+                      <td className="p-2 text-right font-mono text-slate-600 dark:text-slate-400">{opt.time_min} min</td>
+                      <td className="p-2 text-right font-mono text-slate-600 dark:text-slate-400">{opt.cost_azn > 0 ? `${opt.cost_azn.toFixed(2)}` : 'Free'}</td>
+                      <td className="p-2 text-right font-mono text-slate-600 dark:text-slate-400">{opt.emissions_g}g</td>
+                      <td className="p-2 text-right font-mono text-slate-600 dark:text-slate-400">{Math.round(opt.reliability * 100)}%</td>
                       <td className="p-2 text-right">
                         <span className={`${opt.accessibility === 'full' ? 'text-emerald-400' : opt.accessibility === 'partial' ? 'text-amber-400' : 'text-slate-500'}`}>
                           {opt.accessibility}

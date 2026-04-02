@@ -30,7 +30,7 @@ export default function Alerts() {
   }, []);
 
   if (loading) {
-    return <div className="animate-pulse space-y-3">{[...Array(3)].map((_, i) => <div key={i} className="bg-[#141820] rounded-xl h-24 border border-slate-800/60" />)}</div>;
+    return <div className="animate-pulse space-y-3">{[...Array(3)].map((_, i) => <div key={i} className="bg-white dark:bg-[#141820] rounded-xl h-24 border border-slate-200 dark:border-slate-800/60" />)}</div>;
   }
 
   const filtered = (statusFilter === 'all' ? alerts : alerts.filter(a => a.status === statusFilter))
@@ -42,8 +42,8 @@ export default function Alerts() {
     <div className="space-y-6" data-testid="alerts-page">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h2 className="font-heading text-xl font-semibold text-white">Alerts & Incidents</h2>
-          <p className="text-sm text-slate-400 mt-1">Official alerts, observed disruptions, and anomaly outputs</p>
+          <h2 className="font-heading text-xl font-semibold text-slate-900 dark:text-white">Alerts & Incidents</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Official alerts, observed disruptions, and anomaly outputs</p>
         </div>
         <div className="flex items-center gap-3">
           <Badge variant="outline" className="text-amber-400 border-amber-500/30 bg-amber-500/10 text-xs">
@@ -56,7 +56,7 @@ export default function Alerts() {
       </div>
 
       <Tabs defaultValue="all" onValueChange={setStatusFilter}>
-        <TabsList className="bg-slate-800/60">
+        <TabsList className="bg-white dark:bg-slate-800/60">
           <TabsTrigger value="all" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">All ({alerts.length})</TabsTrigger>
           <TabsTrigger value="active" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Active ({activeCount})</TabsTrigger>
           <TabsTrigger value="resolved" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Resolved ({resolvedCount})</TabsTrigger>
@@ -65,32 +65,32 @@ export default function Alerts() {
 
       <div className="space-y-3" data-testid="alerts-list">
         {filtered.length === 0 ? (
-          <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-8 text-center">
+          <div className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl p-8 text-center">
             <CheckCircle2 className="w-8 h-8 text-slate-600 mx-auto mb-3" />
-            <p className="text-sm text-slate-400">No alerts matching this filter</p>
+            <p className="text-sm text-slate-600 dark:text-slate-400">No alerts matching this filter</p>
           </div>
         ) : (
           filtered.map((alert) => {
             const sev = SEVERITY_CONFIG[alert.severity] || SEVERITY_CONFIG.info;
             const SevIcon = sev.icon;
             return (
-              <div key={alert.id} className={`bg-[#141820] border ${sev.border} rounded-xl p-5 hover:border-slate-600 transition-all`} data-testid={`alert-${alert.id}`}>
+              <div key={alert.id} className={`bg-white dark:bg-[#141820] border ${sev.border} rounded-xl p-5 hover:border-slate-400 dark:hover:border-slate-600 transition-all`} data-testid={`alert-${alert.id}`}>
                 <div className="flex items-start gap-4">
                   <div className={`w-10 h-10 rounded-lg ${sev.bg} flex items-center justify-center flex-shrink-0`}>
                     <SevIcon className={`w-5 h-5 ${sev.color}`} strokeWidth={1.5} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <h3 className="font-heading text-sm font-medium text-white">{alert.title}</h3>
-                      <Badge variant="outline" className={`text-xs ${PROVENANCE_COLORS[alert.provenance] || 'text-slate-400 border-slate-600'}`}>
+                      <h3 className="font-heading text-sm font-medium text-slate-900 dark:text-white">{alert.title}</h3>
+                      <Badge variant="outline" className={`text-xs ${PROVENANCE_COLORS[alert.provenance] || 'text-slate-600 dark:text-slate-400 border-slate-600'}`}>
                         <Shield className="w-3 h-3 mr-1" />{alert.provenance.replace(/_/g, ' ')}
                       </Badge>
                     </div>
-                    <p className="text-sm text-slate-400 leading-relaxed mb-3">{alert.description}</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-3">{alert.description}</p>
                     <div className="flex items-center gap-4 text-xs text-slate-500 flex-wrap">
                       <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{alert.affected_area}</span>
                       <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{alert.start_time?.split('T')[0]}</span>
-                      {alert.mode && <Badge variant="outline" className="text-xs text-slate-400 border-slate-700 capitalize">{alert.mode}</Badge>}
+                      {alert.mode && <Badge variant="outline" className="text-xs text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-700 capitalize">{alert.mode}</Badge>}
                       <Badge variant="outline" className={`text-xs ${alert.status === 'active' ? 'text-amber-400 border-amber-500/30' : 'text-emerald-400 border-emerald-500/30'}`}>
                         {alert.status}
                       </Badge>

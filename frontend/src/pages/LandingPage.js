@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useApp } from '@/context/AppContext';
 import {
   ChevronRight, MapPin, Shield, BarChart3, Route, AlertTriangle,
   Accessibility, Globe, Users, Building2, Smartphone, Train, Bus,
-  Car, Bike, Footprints, Navigation, Truck, Eye, CheckCircle2,
-  Clock, ArrowRight, Activity, Zap, CircleDot, ParkingSquare,
-  Menu, X, Star, Target, TrendingUp, Database, Lock, Server
+  Car, Bike, Footprints, Eye, CheckCircle2,
+  Clock, ArrowRight, Activity, Zap, CircleDot,
+  Menu, X, Star, Target, TrendingUp, Database, Lock, Server, Sun, Moon,
+  CarTaxiFront, BusFront, Waypoints, UsersRound, User, BatteryCharging
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -23,15 +25,15 @@ const PROVENANCE_LABELS = {
   licensed_partner: { label: 'Licensed', color: 'bg-purple-100 text-purple-700 border-purple-200' },
   configuration_required: { label: 'Config Needed', color: 'bg-red-100 text-red-700 border-red-200' },
   permission_required: { label: 'Permission Needed', color: 'bg-rose-100 text-rose-700 border-rose-200' },
-  unavailable: { label: 'Unavailable', color: 'bg-slate-100 text-slate-500 border-slate-200' },
+  unavailable: { label: 'Unavailable', color: 'bg-slate-100 text-slate-500 border-slate-200 dark:border-slate-800/80' },
   stale: { label: 'Stale', color: 'bg-orange-100 text-orange-700 border-orange-200' },
 };
 
 const MODE_ICONS = {
-  walking: Footprints, wheelchair: Accessibility, bicycle: Bike, e_bike: Zap,
-  scooter: CircleDot, e_scooter: Zap, private_car: Car, taxi: Navigation,
-  metro: Train, bus: Bus, minibus: Truck, shuttle: Bus, park_and_ride: Route,
-  shared_mobility: Users,
+  walking: Footprints, wheelchair: Accessibility, bicycle: Bike, e_bike: BatteryCharging,
+  scooter: CircleDot, e_scooter: Zap, private_car: Car, taxi: CarTaxiFront,
+  metro: Train, bus: Bus, minibus: BusFront, shuttle: BusFront, park_and_ride: Waypoints,
+  shared_mobility: UsersRound,
 };
 
 const MODES = [
@@ -52,6 +54,7 @@ const MODES = [
 ];
 
 const Navbar = () => {
+  const { theme, toggleTheme } = useApp();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   useEffect(() => {
@@ -60,20 +63,23 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', h);
   }, []);
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 py-2 transition-all duration-300 ${scrolled ? 'bg-white/90 glass-panel border-b border-slate-200/50 shadow-sm' : 'bg-transparent'}`} data-testid="navbar">
+    <nav className={`fixed top-0 left-0 right-0 z-50 py-2 transition-all duration-300 ${scrolled ? 'bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14]/90 glass-panel border-b border-slate-200 dark:border-slate-800/80/50 shadow-sm' : 'bg-transparent'}`} data-testid="navbar">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-2.5">
           <img src="/assets/urbanivity-logo.png" alt="Urbanivity" className="w-[150px]" />
       
         </Link>
         <div className="hidden md:flex items-center gap-8 mx-[20px]">
-          <a href="#vision" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">Vision</a>
-          <a href="#modules" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">Modules</a>
-          <a href="#provenance" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">Trust</a>
-          <a href="#business" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">Business</a>
-          <a href="#team" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">Team</a>
+          <a href="#vision" className="text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:text-white transition-colors">Vision</a>
+          <a href="#modules" className="text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:text-white transition-colors">Modules</a>
+          <a href="#provenance" className="text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:text-white transition-colors">Trust</a>
+          <a href="#business" className="text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:text-white transition-colors">Business</a>
+          <a href="#team" className="text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:text-white transition-colors">Team</a>
         </div>
         <div className="hidden md:flex items-center gap-3">
+          <button onClick={toggleTheme} className="p-2 text-slate-500 hover:text-slate-900 dark:text-white dark:hover:text-white transition-colors">
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
           <Link to="/login">
             <Button data-testid="launch-dashboard-btn" className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-5 py-2 text-sm font-medium shadow-lg shadow-blue-600/20">
               Launch Dashboard <ChevronRight className="w-4 h-4 ml-1" />
@@ -85,13 +91,17 @@ const Navbar = () => {
         </button>
       </div>
       {mobileOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 px-4 py-4 space-y-3">
-          <a href="#vision" className="block text-sm text-slate-600" onClick={() => setMobileOpen(false)}>Vision</a>
-          <a href="#modules" className="block text-sm text-slate-600" onClick={() => setMobileOpen(false)}>Modules</a>
-          <a href="#provenance" className="block text-sm text-slate-600" onClick={() => setMobileOpen(false)}>Trust</a>
-          <a href="#business" className="block text-sm text-slate-600" onClick={() => setMobileOpen(false)}>Business</a>
+        <div className="md:hidden bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14] border-b border-slate-200 dark:border-slate-800/80 px-4 py-4 space-y-3">
+          <a href="#vision" className="block text-sm text-slate-600 dark:text-slate-300" onClick={() => setMobileOpen(false)}>Vision</a>
+          <a href="#modules" className="block text-sm text-slate-600 dark:text-slate-300" onClick={() => setMobileOpen(false)}>Modules</a>
+          <a href="#provenance" className="block text-sm text-slate-600 dark:text-slate-300" onClick={() => setMobileOpen(false)}>Trust</a>
+          <a href="#business" className="block text-sm text-slate-600 dark:text-slate-300" onClick={() => setMobileOpen(false)}>Business</a>
+          <button onClick={toggleTheme} className="w-full text-left text-sm text-slate-600 dark:text-slate-300 mb-2 py-2 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+            {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            {theme === 'dark' ? <Sun className="w-4 h-4 text-blue-500" /> : <Moon className="w-4 h-4 text-blue-500" />}
+          </button>
           <Link to="/login" className="block">
-            <Button data-testid="mobile-dashboard-btn" className="w-full bg-blue-600 text-white rounded-lg text-sm">Launch Dashboard</Button>
+            <Button data-testid="mobile-dashboard-btn" className="w-full bg-blue-600 dark:bg-slate-900 dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-blue-900/40 dark:to-slate-900 text-white rounded-lg text-sm">Launch Dashboard</Button>
           </Link>
         </div>
       )}
@@ -101,31 +111,31 @@ const Navbar = () => {
 
 const Hero = () => (
   <section className="relative pt-32 pb-24 sm:pt-40 sm:pb-32 overflow-hidden" data-testid="hero-section">
-    <div className="absolute inset-0 bg-gradient-to-b from-blue-50/60 to-slate-50" />
-    <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-blue-100/40 rounded-full blur-3xl" />
-    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange-100/30 rounded-full blur-3xl" />
+    <div className="absolute inset-0 bg-gradient-to-b from-blue-50/60 to-slate-50 dark:from-[#0f172a] dark:to-[#0B0E14]" />
+    <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-blue-100/40 dark:bg-blue-600/10 rounded-full blur-3xl animate-pulse" />
+    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange-100/30 dark:bg-purple-600/10 rounded-full blur-3xl animate-pulse" />
     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div {...fadeUp} className="max-w-4xl">
         <Badge variant="outline" className="mb-6 text-blue-600 border-blue-200 bg-blue-50 px-3 py-1 font-mono text-xs uppercase tracking-widest">
           Urban Mobility Intelligence
         </Badge>
-        <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1] mb-6">
+        <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white tracking-tight leading-[1.1] mb-6">
           Making city movement<br />
-          <span className="text-[#030f4f]">understandable, equitable,</span><br />
+          <span className="text-[#030f4f] dark:text-blue-500">understandable, equitable,</span><br />
           and trustworthy
         </h1>
-        <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-2xl mb-8 font-light">
+        <p className="text-lg md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mb-8 font-light">
           Urbanivity is a provenance-aware multimodal mobility intelligence platform for Azerbaijani cities.
           Built for Baku. Designed for every mode of movement, including wheelchair mobility.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <Link to="/login">
-            <Button data-testid="hero-dashboard-btn" className="bg-[#030f4f] hover:bg-[#041a9c] text-white rounded-lg px-8 py-3 text-base font-medium shadow-lg shadow-blue-600/20 transition-all">
+            <Button data-testid="hero-dashboard-btn" className="bg-[#030f4f] hover:bg-[#041a9c] text-white bg-blue-600 rounded-lg px-8 py-3 text-base font-medium shadow-lg shadow-blue-600/20 transition-all">
               Explore the Dashboard <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </Link>
           <a href="#vision">
-            <Button data-testid="hero-learn-btn" variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 rounded-lg px-8 py-3 text-base transition-all">
+            <Button data-testid="hero-learn-btn" variant="outline" className="border-slate-300 text-slate-700 dark:text-slate-200  rounded-lg px-8 py-3 text-base transition-all">
               Learn More
             </Button>
           </a>
@@ -136,8 +146,8 @@ const Hero = () => (
           { n: '14', l: 'Mobility Modes' }, { n: '13', l: 'Data Providers' },
           { n: '12', l: 'Districts Covered' }, { n: '2.8M', l: 'Daily Trips' }
         ].map((s) => (
-          <div key={s.l} className="bg-white/80 glass-panel rounded-xl border border-slate-200/60 p-4 text-center">
-            <div className="font-heading text-2xl sm:text-3xl font-bold text-slate-900">{s.n}</div>
+          <div key={s.l} className="bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14]/80 glass-panel rounded-xl border border-slate-200 dark:border-slate-800/80/60 p-4 text-center">
+            <div className="font-heading text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">{s.n}</div>
             <div className="text-xs text-slate-500 mt-1 font-mono uppercase tracking-wider">{s.l}</div>
           </div>
         ))}
@@ -147,15 +157,15 @@ const Hero = () => (
 );
 
 const Vision = () => (
-  <section id="vision" className="py-24 sm:py-32 bg-white" data-testid="vision-section">
+  <section id="vision" className="py-24 sm:py-32 bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14]" data-testid="vision-section">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
         <motion.div {...fadeUp}>
           <p className="font-mono text-xs uppercase tracking-widest text-blue-600 mb-4">The Vision</p>
-          <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight mb-6">
+          <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white tracking-tight mb-6">
             Why Azerbaijan needs integrated mobility intelligence now
           </h2>
-          <div className="space-y-4 text-slate-600 leading-relaxed">
+          <div className="space-y-4 text-slate-600 dark:text-slate-300 leading-relaxed">
             <p>
               Baku is a growing city with increasingly complex urban movement patterns. Public transport, taxis, private cars, walking,
               and emerging micro-mobility options all compete for space and attention, but no single system connects them.
@@ -177,12 +187,12 @@ const Vision = () => (
             { icon: Accessibility, title: 'Inclusive mobility gaps', desc: 'Wheelchair users and mobility-impaired citizens lack route confidence.' },
             { icon: Shield, title: 'Trust deficit', desc: 'No transparency about where transport data comes from or how fresh it is.' },
           ].map((item) => (
-            <div key={item.title} className="flex gap-4 p-5 rounded-xl border border-slate-100 hover:border-blue-100 hover:bg-blue-50/30 transition-all duration-300">
+            <div key={item.title} className="flex gap-4 p-5 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-blue-100 hover:bg-blue-50/30 transition-all duration-300">
               <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
                 <item.icon className="w-5 h-5 text-blue-600" strokeWidth={1.5} />
               </div>
               <div>
-                <h3 className="font-heading font-medium text-slate-900 mb-1">{item.title}</h3>
+                <h3 className="font-heading font-medium text-slate-900 dark:text-white mb-1">{item.title}</h3>
                 <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
               </div>
             </div>
@@ -194,14 +204,14 @@ const Vision = () => (
 );
 
 const MultimodalSection = () => (
-  <section className="py-24 sm:py-32 bg-slate-50" data-testid="multimodal-section">
+  <section className="py-24 sm:py-32 bg-slate-50 dark:bg-[#0B0E14] dark:bg-slate-900" data-testid="multimodal-section">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div {...fadeUp} className="text-center mb-16">
         <p className="font-mono text-xs uppercase tracking-widest text-blue-600 mb-4">Complete Mobility Coverage</p>
-        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight mb-4">
+        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white tracking-tight mb-4">
           Every mode of movement, one platform
         </h2>
-        <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto font-light">
+        <p className="text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto font-light">
           Urbanivity supports 14 mobility modes: walking, wheelchair mobility, bicycle, e-bike, scooter, e-scooter,
           private car, taxi and ride-hailing, metro, bus, minibus, shuttle, transfer-based multimodal journeys,
           and future shared mobility. This is not just another transit app.
@@ -210,14 +220,14 @@ const MultimodalSection = () => (
       <motion.div {...fadeIn} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
         {MODES.map((mode) => {
           const Icon = MODE_ICONS[mode.id] || CircleDot;
-          const statusColor = mode.status === 'active' ? 'text-emerald-600 bg-emerald-50' : mode.status === 'limited' ? 'text-amber-600 bg-amber-50' : mode.status === 'emerging' ? 'text-blue-600 bg-blue-50' : 'text-slate-400 bg-slate-50';
+          const statusColor = mode.status === 'active' ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 dark:text-emerald-400' : mode.status === 'limited' ? 'text-amber-600 bg-amber-50 dark:bg-amber-500/10 dark:text-amber-400' : mode.status === 'emerging' ? 'text-blue-600 bg-blue-50 dark:bg-blue-500/10 dark:text-blue-400' : 'text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800';
           return (
-            <div key={mode.id} className="group bg-white rounded-xl border border-slate-100 p-5 hover:border-blue-200 hover:shadow-md transition-all duration-300 text-center">
+            <div key={mode.id} className="group bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 rounded-xl border border-slate-100 dark:border-slate-800 p-5 hover:border-blue-200 hover:shadow-md transition-all duration-300 text-center">
               <div className={`w-12 h-12 rounded-xl ${statusColor} flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform`}>
                 <Icon className="w-6 h-6" strokeWidth={1.5} />
               </div>
-              <h3 className="font-heading font-medium text-sm text-slate-900 mb-1">{mode.name}</h3>
-              <span className={`text-xs font-mono uppercase tracking-wider ${mode.status === 'active' ? 'text-emerald-600' : mode.status === 'limited' ? 'text-amber-600' : mode.status === 'emerging' ? 'text-blue-600' : 'text-slate-400'}`}>
+              <h3 className="font-heading font-medium text-sm text-slate-900 dark:text-white mb-1">{mode.name}</h3>
+              <span className={`text-xs font-mono uppercase tracking-wider ${mode.status === 'active' ? 'text-emerald-600 dark:text-emerald-400' : mode.status === 'limited' ? 'text-amber-600 dark:text-amber-400' : mode.status === 'emerging' ? 'text-blue-600 dark:text-blue-400' : 'text-slate-600 dark:text-slate-400'}`}>
                 {mode.status}
               </span>
             </div>
@@ -229,11 +239,11 @@ const MultimodalSection = () => (
 );
 
 const HowItWorks = () => (
-  <section className="py-24 sm:py-32 bg-white" data-testid="how-it-works-section">
+  <section className="py-24 sm:py-32 bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14]" data-testid="how-it-works-section">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div {...fadeUp} className="text-center mb-16">
         <p className="font-mono text-xs uppercase tracking-widest text-blue-600 mb-4">How It Works</p>
-        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white tracking-tight">
           From fragmented data to unified intelligence
         </h2>
       </motion.div>
@@ -243,13 +253,13 @@ const HowItWorks = () => (
           { step: '02', title: 'Analyze', icon: BarChart3, desc: 'Process multimodal routing, congestion forecasting, equity analysis, and anomaly detection across all mobility modes and districts.' },
           { step: '03', title: 'Activate', icon: Target, desc: 'Deliver intelligence to public sector planners, transit operators, and riders through dashboards, APIs, and mobile-ready interfaces.' },
         ].map((item) => (
-          <motion.div key={item.step} {...fadeUp} className="relative bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:border-blue-100 transition-all">
+          <motion.div key={item.step} {...fadeUp} className="relative bg-slate-50 dark:bg-[#0B0E14] dark:bg-slate-900 rounded-2xl p-8 border border-slate-100 dark:border-slate-800 hover:border-blue-100 transition-all">
             <span className="font-mono text-5xl font-bold text-slate-100 absolute top-4 right-6">{item.step}</span>
             <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center mb-5">
               <item.icon className="w-6 h-6 text-white" strokeWidth={1.5} />
             </div>
-            <h3 className="font-heading text-xl font-semibold text-slate-900 mb-3">{item.title}</h3>
-            <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
+            <h3 className="font-heading text-xl font-semibold text-slate-900 dark:text-white mb-3">{item.title}</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{item.desc}</p>
           </motion.div>
         ))}
       </div>
@@ -258,14 +268,14 @@ const HowItWorks = () => (
 );
 
 const SourceTrust = () => (
-  <section id="provenance" className="py-24 sm:py-32 bg-slate-900 text-white" data-testid="provenance-section">
+  <section id="provenance" className="py-24 sm:py-32 bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14] dark:bg-slate-900 text-slate-900 dark:text-white" data-testid="provenance-section">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div {...fadeUp} className="text-center mb-16">
         <p className="font-mono text-xs uppercase tracking-widest text-blue-400 mb-4">Source Trust & Provenance</p>
         <h2 className="font-heading text-3xl sm:text-4xl font-semibold tracking-tight mb-4">
           Every data point tells you where it came from
         </h2>
-        <p className="text-base md:text-lg text-slate-400 max-w-2xl mx-auto font-light">
+        <p className="text-base md:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto font-light">
           Unlike opaque mobility platforms, Urbanivity makes source transparency a core feature.
           Every metric, alert, and route carries a provenance tag.
         </p>
@@ -280,7 +290,7 @@ const SourceTrust = () => (
             licensed_partner: 'border-purple-500/30 bg-purple-500/10 text-purple-400',
             configuration_required: 'border-red-500/30 bg-red-500/10 text-red-400',
             permission_required: 'border-rose-500/30 bg-rose-500/10 text-rose-400',
-            unavailable: 'border-slate-500/30 bg-slate-500/10 text-slate-400',
+            unavailable: 'border-slate-500/30 bg-slate-50 dark:bg-[#0B0E14] dark:bg-slate-900/10 text-slate-600 dark:text-slate-300',
             stale: 'border-orange-500/30 bg-orange-500/10 text-orange-400',
           };
           return (
@@ -289,7 +299,7 @@ const SourceTrust = () => (
                 <div className={`w-2 h-2 rounded-full pulse-dot`} style={{ backgroundColor: 'currentColor' }} />
                 <span className="font-mono text-xs uppercase tracking-wider">{label}</span>
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 {key === 'official' && 'Government or operator-provided data'}
                 {key === 'official_alerts_only' && 'Official source, alerts channel only'}
                 {key === 'public_web_observed' && 'Publicly observable web data'}
@@ -309,11 +319,11 @@ const SourceTrust = () => (
 );
 
 const Modules = () => (
-  <section id="modules" className="py-24 sm:py-32 bg-white" data-testid="modules-section">
+  <section id="modules" className="py-24 sm:py-32 bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14]" data-testid="modules-section">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div {...fadeUp} className="text-center mb-16">
         <p className="font-mono text-xs uppercase tracking-widest text-blue-600 mb-4">Product Modules</p>
-        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white tracking-tight">
           A complete intelligence toolkit
         </h2>
       </motion.div>
@@ -326,11 +336,11 @@ const Modules = () => (
           { icon: Globe, title: 'Earth Observation', desc: 'Satellite-derived environmental context: vegetation, temperature, urban density, and air quality proxies.', color: 'bg-cyan-50 text-cyan-600' },
           { icon: Shield, title: 'Provider Provenance', desc: 'Full transparency into every data source: status, freshness, reliability, and trust classification.', color: 'bg-orange-50 text-orange-600' },
         ].map((mod) => (
-          <motion.div key={mod.title} {...fadeUp} className="group bg-white rounded-2xl p-8 border border-slate-100 hover:shadow-lg hover:border-blue-100 transition-all duration-300">
+          <motion.div key={mod.title} {...fadeUp} className="group bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14] rounded-2xl p-8 border border-slate-100 dark:border-slate-800 hover:shadow-lg hover:border-blue-100 transition-all duration-300">
             <div className={`w-12 h-12 rounded-xl ${mod.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
               <mod.icon className="w-6 h-6" strokeWidth={1.5} />
             </div>
-            <h3 className="font-heading text-lg font-semibold text-slate-900 mb-2">{mod.title}</h3>
+            <h3 className="font-heading text-lg font-semibold text-slate-900 dark:text-white mb-2">{mod.title}</h3>
             <p className="text-sm text-slate-500 leading-relaxed">{mod.desc}</p>
           </motion.div>
         ))}
@@ -340,11 +350,11 @@ const Modules = () => (
 );
 
 const BusinessSection = () => (
-  <section id="business" className="py-24 sm:py-32 bg-slate-50" data-testid="business-section">
+  <section id="business" className="py-24 sm:py-32 bg-slate-50 dark:bg-[#0B0E14] dark:bg-slate-900" data-testid="business-section">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div {...fadeUp} className="text-center mb-16">
         <p className="font-mono text-xs uppercase tracking-widest text-blue-600 mb-4">Business Model</p>
-        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white tracking-tight">
           Built for governments, operators, and riders
         </h2>
       </motion.div>
@@ -369,7 +379,7 @@ const BusinessSection = () => (
             ]
           },
         ].map((b) => (
-          <motion.div key={b.segment} {...fadeUp} className="bg-white rounded-2xl p-8 border border-slate-100 hover:shadow-md transition-all">
+          <motion.div key={b.segment} {...fadeUp} className="bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14] rounded-2xl p-8 border border-slate-100 dark:border-slate-800 hover:shadow-md transition-all">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center">
                 <b.icon className="w-5 h-5 text-white" strokeWidth={1.5} />
@@ -381,7 +391,7 @@ const BusinessSection = () => (
             </div>
             <ul className="space-y-3">
               {b.items.map((item) => (
-                <li key={item} className="flex items-start gap-2 text-sm text-slate-600">
+                <li key={item} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
                   <CheckCircle2 className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" strokeWidth={2} />
                   {item}
                 </li>
@@ -395,11 +405,11 @@ const BusinessSection = () => (
 );
 
 const Roadmap = () => (
-  <section className="py-24 sm:py-32 bg-white" data-testid="roadmap-section">
+  <section className="py-24 sm:py-32 bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14]" data-testid="roadmap-section">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div {...fadeUp} className="text-center mb-16">
         <p className="font-mono text-xs uppercase tracking-widest text-blue-600 mb-4">Roadmap</p>
-        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white tracking-tight">
           From Baku to the region
         </h2>
       </motion.div>
@@ -412,13 +422,13 @@ const Roadmap = () => (
         ].map((r, i) => (
           <motion.div key={r.phase} {...fadeUp} className="relative flex gap-6 pb-12 last:pb-0">
             <div className="flex flex-col items-center">
-              <div className={`w-4 h-4 rounded-full border-2 ${r.status === 'active' ? 'bg-blue-600 border-blue-600' : 'bg-white border-slate-300'}`} />
+              <div className={`w-4 h-4 rounded-full border-2 ${r.status === 'active' ? 'bg-blue-600 border-blue-600' : 'bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14] border-slate-300'}`} />
               {i < 3 && <div className="w-0.5 flex-1 bg-slate-200 mt-1" />}
             </div>
             <div className="flex-1 -mt-1">
               <div className="flex items-center gap-3 mb-2">
-                <span className="font-heading font-semibold text-slate-900">{r.phase}: {r.title}</span>
-                <Badge variant="outline" className={`font-mono text-xs ${r.status === 'active' ? 'text-blue-600 border-blue-200 bg-blue-50' : 'text-slate-400 border-slate-200'}`}>{r.period}</Badge>
+                <span className="font-heading font-semibold text-slate-900 dark:text-white">{r.phase}: {r.title}</span>
+                <Badge variant="outline" className={`font-mono text-xs ${r.status === 'active' ? 'text-blue-600 border-blue-200 bg-blue-50' : 'text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-800/80'}`}>{r.period}</Badge>
               </div>
               <ul className="space-y-1">
                 {r.items.map((item) => (
@@ -437,15 +447,15 @@ const Roadmap = () => (
 );
 
 const WUFSection = () => (
-  <section className="py-24 sm:py-32 bg-blue-600 text-white" data-testid="wuf-section">
+  <section className="py-24 sm:py-32 bg-blue-600 dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-slate-800 dark:to-slate-900 text-white" data-testid="wuf-section">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
         <motion.div {...fadeUp}>
-          <p className="font-mono text-xs uppercase tracking-widest text-blue-200 mb-4">Global Alignment</p>
+          <p className="font-mono text-xs uppercase tracking-widest text-blue-200 dark:text-blue-400 mb-4">Global Alignment</p>
           <h2 className="font-heading text-3xl sm:text-4xl font-semibold tracking-tight mb-6">
             Aligned with WUF13 and sustainable urban development goals
           </h2>
-          <p className="text-blue-100 leading-relaxed mb-6 font-light">
+          <p className="text-blue-100 dark:text-slate-300 leading-relaxed mb-6 font-light">
             The World Urban Forum 13 in Cairo emphasized resilient, inclusive, and sustainable cities.
             Urbanivity directly supports these goals by making urban mobility transparent, accessible, and equitable.
           </p>
@@ -457,9 +467,9 @@ const WUFSection = () => (
             { title: 'Resilient Systems', desc: 'Alert propagation and anomaly detection for service continuity' },
             { title: 'Equitable Planning', desc: 'District-level equity indices for evidence-based planning' },
           ].map((item) => (
-            <div key={item.title} className="bg-white/10 glass-panel rounded-xl p-5 border border-white/10">
+            <div key={item.title} className="bg-white/10 dark:bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/20 dark:border-white/10 hover:bg-white/20 dark:hover:bg-white/10 transition-colors">
               <h3 className="font-heading font-medium text-white mb-2 text-sm">{item.title}</h3>
-              <p className="text-xs text-blue-100 leading-relaxed">{item.desc}</p>
+              <p className="text-xs text-blue-50 dark:text-slate-300 leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </motion.div>
@@ -469,11 +479,11 @@ const WUFSection = () => (
 );
 
 const TeamSection = () => (
-  <section id="team" className="py-24 sm:py-32 bg-slate-50" data-testid="team-section">
+  <section id="team" className="py-24 sm:py-32 bg-slate-50 dark:bg-[#0B0E14] dark:bg-slate-900" data-testid="team-section">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div {...fadeUp} className="text-center mb-16">
         <p className="font-mono text-xs uppercase tracking-widest text-blue-600 mb-4">Team</p>
-        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 tracking-tight">
+        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white tracking-tight">
           Built by people who understand the problem
         </h2>
       </motion.div>
@@ -485,11 +495,11 @@ const TeamSection = () => (
           { name: 'Aslan Ibadullayev', role: 'Frontend Developer', focus: 'Engineering the B2C utility and multimodal routing displays.' },
           { name: 'Fidan Bagirova', role: 'AI Engineer', focus: 'Designing the future federated learning pathways.' },
         ].map((member) => (
-          <motion.div key={member.name} {...fadeUp} className="bg-white rounded-2xl p-6 border border-slate-100 text-center hover:shadow-md transition-all">
-            <div className="w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center mx-auto mb-4">
-              <Users className="w-7 h-7 text-slate-400" strokeWidth={1.5} />
+          <motion.div key={member.name} {...fadeUp} className="bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14] rounded-2xl p-6 border border-slate-100 dark:border-slate-800 text-center hover:shadow-md transition-all">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/20">
+              <User className="w-7 h-7 text-white" strokeWidth={1.5} />
             </div>
-            <h3 className="font-heading font-semibold text-slate-900">{member.name}</h3>
+            <h3 className="font-heading font-semibold text-slate-900 dark:text-white">{member.name}</h3>
             <p className="text-sm text-blue-600 font-medium mb-2">{member.role}</p>
             <p className="text-xs text-slate-500 leading-relaxed">{member.focus}</p>
           </motion.div>
@@ -500,17 +510,17 @@ const TeamSection = () => (
 );
 
 const CTASection = () => (
-  <section className="py-24 sm:py-32 bg-slate-900" data-testid="cta-section">
+  <section className="py-24 sm:py-32 bg-white dark:bg-[#111827] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] dark:border-white/5 dark:bg-[#0aa14] dark:bg-slate-900" data-testid="cta-section">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <motion.div {...fadeUp}>
-        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-white tracking-tight mb-4">
+        <h2 className="font-heading text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white tracking-tight mb-4">
           See Urbanivity in action
         </h2>
-        <p className="text-lg text-slate-400 max-w-xl mx-auto mb-8 font-light">
+        <p className="text-lg text-slate-600 dark:text-slate-300 max-w-xl mx-auto mb-8 font-light">
           Explore the full dashboard with real Baku mobility data, multimodal routing, equity analytics, and source-aware intelligence.
         </p>
         <Link to="/login">
-          <Button data-testid="cta-dashboard-btn" className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg px-10 py-4 text-base font-medium shadow-lg shadow-blue-600/30 transition-all">
+          <Button data-testid="cta-dashboard-btn" className="bg-blue-600 hover:bg-blue-500 text-slate-900 text-white rounded-lg px-10 py-4 text-base font-medium shadow-lg shadow-blue-600/30 transition-all">
             Launch the Dashboard <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </Link>
@@ -520,14 +530,14 @@ const CTASection = () => (
 );
 
 const Footer = () => (
-  <footer className="bg-slate-950 py-12 border-t border-slate-800" data-testid="footer">
+  <footer className="bg-slate-950 dark:bg-black py-12 border-t border-slate-200 dark:border-slate-800/80 dark:border-slate-800" data-testid="footer">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-2.5">
           <span className="font-heading font-bold text-white tracking-tight">Urbanivity</span>
         </div>
         <p className="text-sm text-slate-500">Multimodal Urban Mobility Intelligence for Azerbaijan</p>
-        <div className="flex items-center gap-4 text-xs text-slate-600">
+        <div className="flex items-center gap-4 text-xs text-slate-600 dark:text-slate-300">
           <span>Baku, Azerbaijan</span>
           <span>2026</span>
         </div>
@@ -538,7 +548,7 @@ const Footer = () => (
 
 export default function LandingPage() {
   return (
-    <div className="bg-slate-50 min-h-screen font-body" data-testid="landing-page">
+    <div className="bg-slate-50 dark:bg-[#0B0E14] dark:bg-slate-900 min-h-screen font-body" data-testid="landing-page">
       <Navbar />
       <Hero />
       <Vision />

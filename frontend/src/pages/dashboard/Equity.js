@@ -8,12 +8,12 @@ const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
   const d = payload[0]?.payload;
   return (
-    <div className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 shadow-xl">
-      <p className="text-sm font-medium text-white mb-1">{d?.name}</p>
-      <p className="text-xs text-slate-400">Mobility Score: {d?.mobility_score}</p>
-      <p className="text-xs text-slate-400">Equity Index: {d?.equity_index}</p>
-      <p className="text-xs text-slate-400">Wheelchair Stops: {d?.wheelchair_accessible_stops}</p>
-      <p className="text-xs text-slate-400">Population: {d?.population?.toLocaleString()}</p>
+    <div className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 shadow-xl">
+      <p className="text-sm font-medium text-slate-900 dark:text-white mb-1">{d?.name}</p>
+      <p className="text-xs text-slate-600 dark:text-slate-400">Mobility Score: {d?.mobility_score}</p>
+      <p className="text-xs text-slate-600 dark:text-slate-400">Equity Index: {d?.equity_index}</p>
+      <p className="text-xs text-slate-600 dark:text-slate-400">Wheelchair Stops: {d?.wheelchair_accessible_stops}</p>
+      <p className="text-xs text-slate-600 dark:text-slate-400">Population: {d?.population?.toLocaleString()}</p>
     </div>
   );
 };
@@ -34,7 +34,7 @@ export default function Equity() {
   }, []);
 
   if (loading) {
-    return <div className="animate-pulse"><div className="bg-[#141820] rounded-xl h-64 border border-slate-800/60" /></div>;
+    return <div className="animate-pulse"><div className="bg-white dark:bg-[#141820] rounded-xl h-64 border border-slate-200 dark:border-slate-800/60" /></div>;
   }
 
   const sorted = [...districts].sort((a, b) => b.mobility_score - a.mobility_score);
@@ -46,8 +46,8 @@ export default function Equity() {
   return (
     <div className="space-y-6" data-testid="equity-page">
       <div>
-        <h2 className="font-heading text-xl font-semibold text-white">Mobility Equity & Accessibility</h2>
-        <p className="text-sm text-slate-400 mt-1">District-level comparison of mobility access, equity, and wheelchair accessibility</p>
+        <h2 className="font-heading text-xl font-semibold text-slate-900 dark:text-white">Mobility Equity & Accessibility</h2>
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">District-level comparison of mobility access, equity, and wheelchair accessibility</p>
       </div>
 
       {/* Summary Stats */}
@@ -58,17 +58,17 @@ export default function Equity() {
           { icon: Accessibility, label: 'Wheelchair Stops', value: totalWheelchairStops, color: 'text-purple-400' },
           { icon: AlertTriangle, label: 'Underserved Districts', value: underserved.length, color: 'text-amber-400' },
         ].map((s) => (
-          <div key={s.label} className="bg-[#141820] border border-slate-800/60 rounded-xl p-4">
+          <div key={s.label} className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
             <s.icon className={`w-4 h-4 ${s.color} mb-2`} strokeWidth={1.5} />
-            <div className="font-heading text-xl font-bold text-white">{s.value}</div>
-            <div className="text-xs text-slate-400">{s.label}</div>
+            <div className="font-heading text-xl font-bold text-slate-900 dark:text-white">{s.value}</div>
+            <div className="text-xs text-slate-600 dark:text-slate-400">{s.label}</div>
           </div>
         ))}
       </div>
 
       {/* Mobility Score Chart */}
-      <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5" data-testid="equity-chart">
-        <h3 className="font-heading text-sm font-medium text-white mb-4">District Mobility Scores</h3>
+      <div className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl p-5" data-testid="equity-chart">
+        <h3 className="font-heading text-sm font-medium text-slate-900 dark:text-white mb-4">District Mobility Scores</h3>
         <ResponsiveContainer height={300}>
           <BarChart data={sorted} layout="vertical">
             <XAxis type="number" domain={[0, 100]} tick={{ fill: '#64748b', fontSize: 11 }} axisLine={false} tickLine={false} />
@@ -82,14 +82,14 @@ export default function Equity() {
       </div>
 
       {/* District Detail Table */}
-      <div className="bg-[#141820] border border-slate-800/60 rounded-xl overflow-hidden" data-testid="equity-table">
-        <div className="p-5 border-b border-slate-800/40">
-          <h3 className="font-heading text-sm font-medium text-white">District Accessibility Details</h3>
+      <div className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl overflow-hidden" data-testid="equity-table">
+        <div className="p-5 border-b border-slate-200 dark:border-slate-800/40">
+          <h3 className="font-heading text-sm font-medium text-slate-900 dark:text-white">District Accessibility Details</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-slate-800/40 text-xs text-slate-500 font-mono uppercase tracking-wider">
+              <tr className="border-b border-slate-200 dark:border-slate-800/40 text-xs text-slate-500 font-mono uppercase tracking-wider">
                 <th className="text-left p-4">District</th>
                 <th className="text-right p-4">Population</th>
                 <th className="text-right p-4">Metro</th>
@@ -102,17 +102,17 @@ export default function Equity() {
             </thead>
             <tbody>
               {sorted.map((d) => (
-                <tr key={d.id} className="border-b border-slate-800/20 hover:bg-slate-800/20 transition-colors">
-                  <td className="p-4 text-white font-medium">{d.name}</td>
-                  <td className="p-4 text-right text-slate-400">{d.population.toLocaleString()}</td>
-                  <td className="p-4 text-right text-slate-400">{d.metro_stations}</td>
-                  <td className="p-4 text-right text-slate-400">{d.bus_routes}</td>
+                <tr key={d.id} className="border-b border-slate-200 dark:border-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800/40 transition-colors">
+                  <td className="p-4 text-slate-900 dark:text-white font-medium">{d.name}</td>
+                  <td className="p-4 text-right text-slate-600 dark:text-slate-400">{d.population.toLocaleString()}</td>
+                  <td className="p-4 text-right text-slate-600 dark:text-slate-400">{d.metro_stations}</td>
+                  <td className="p-4 text-right text-slate-600 dark:text-slate-400">{d.bus_routes}</td>
                   <td className="p-4 text-right">
                     <Badge variant="outline" className={`text-xs ${d.wheelchair_accessible_stops > 10 ? 'text-emerald-400 border-emerald-500/30' : d.wheelchair_accessible_stops > 5 ? 'text-amber-400 border-amber-500/30' : 'text-red-400 border-red-500/30'}`}>
                       {d.wheelchair_accessible_stops}
                     </Badge>
                   </td>
-                  <td className="p-4 text-right text-slate-400">{d.avg_transit_time_min}</td>
+                  <td className="p-4 text-right text-slate-600 dark:text-slate-400">{d.avg_transit_time_min}</td>
                   <td className="p-4 text-right">
                     <span className="font-mono font-medium" style={{ color: getScoreColor(d.mobility_score) }}>{d.mobility_score}</span>
                   </td>
@@ -132,7 +132,7 @@ export default function Equity() {
           <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
           <div>
             <h4 className="font-heading text-sm font-medium text-amber-300 mb-1">Underserved Districts Identified</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
               {underserved.map(d => d.name).join(', ')} have mobility scores below 50, indicating limited transit access,
               fewer wheelchair-accessible stops, and longer average travel times. These districts should be prioritized for infrastructure
               investment and service expansion.

@@ -8,7 +8,7 @@ import {
   Menu, Layers, Play, ChevronRight, LogOut, X,
   Footprints, Bike, Zap, CircleDot, Car, Navigation,
   Train, Bus, Truck, Users, Repeat, Code,
-  Crown, Building2, Server, Smartphone
+  Crown, Building2, Server, Smartphone, Sun, Moon
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -66,10 +66,10 @@ const MobilityModeBar = ({ modes, activeModes, toggleMode, clearModes, onModeDet
   if (!modes.length) return null;
   const hasActive = activeModes.size > 0;
   return (
-    <div className="flex items-center gap-2 px-4 lg:px-6 py-2.5 border-b border-slate-800/40 bg-[#0D1117]/60 overflow-x-auto urbanivity-scroll" data-testid="mobility-mode-bar">
+    <div className="flex items-center gap-2 px-4 lg:px-6 py-2.5 border-b border-slate-200 dark:border-slate-800/40 bg-white/60 dark:bg-[#0D1117]/60 overflow-x-auto urbanivity-scroll" data-testid="mobility-mode-bar">
       <span className="text-xs text-slate-500 font-mono uppercase tracking-wider whitespace-nowrap mr-1">Modes:</span>
       {hasActive && (
-        <button onClick={clearModes} className="text-xs text-slate-500 hover:text-slate-300 border border-slate-700 rounded-md px-2 py-1 whitespace-nowrap transition-colors" data-testid="clear-modes-btn">
+        <button onClick={clearModes} className="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 border border-slate-300 dark:border-slate-700 rounded-md px-2 py-1 whitespace-nowrap transition-colors" data-testid="clear-modes-btn">
           Clear all
         </button>
       )}
@@ -93,10 +93,10 @@ const MobilityModeBar = ({ modes, activeModes, toggleMode, clearModes, onModeDet
                       }
                     }}
                     className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap transition-all duration-200 border ${isActive
-                      ? 'bg-blue-600/15 border-blue-500/40 text-blue-300'
+                      ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-600/15 dark:border-blue-500/40 dark:text-blue-300'
                       : hasActive
-                        ? 'bg-transparent border-slate-800/40 text-slate-600 hover:text-slate-400 hover:border-slate-700'
-                        : 'bg-[#141820] border-slate-800/60 text-slate-400 hover:text-slate-200 hover:border-slate-600'
+                        ? 'bg-transparent border-slate-200 dark:border-slate-800/40 text-slate-600 hover:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700'
+                        : 'bg-white dark:bg-[#141820] border-slate-200 dark:border-slate-800/60 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:border-slate-400 dark:hover:border-slate-600'
                       }`}
                     data-testid={`mode-filter-${mode.id}`}
                   >
@@ -105,9 +105,9 @@ const MobilityModeBar = ({ modes, activeModes, toggleMode, clearModes, onModeDet
                     <div className={`w-1.5 h-1.5 rounded-full ${statusDot}`} />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="bottom" className="bg-slate-900 border-slate-700 text-xs">
-                  <p className="font-medium text-white">{mode.name}</p>
-                  <p className="text-slate-400">{mode.description}</p>
+                <TooltipContent side="bottom" className="bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-xs">
+                  <p className="font-medium text-slate-900 dark:text-white">{mode.name}</p>
+                  <p className="text-slate-600 dark:text-slate-400">{mode.description}</p>
                   <p className="text-slate-500 mt-1">Status: {mode.status} / Source: {mode.provenance.replace(/_/g, ' ')}</p>
                   <p className="text-slate-600 mt-0.5 italic">Click to filter and view details</p>
                 </TooltipContent>
@@ -123,7 +123,7 @@ const MobilityModeBar = ({ modes, activeModes, toggleMode, clearModes, onModeDet
 export default function Dashboard() {
   const { section } = useParams();
   const navigate = useNavigate();
-  const { demoMode, setDemoMode, audienceMode, setAudienceMode, activeSection, setActiveSection, activeModes, toggleMode, clearModes, user, logout } = useApp();
+  const { demoMode, setDemoMode, audienceMode, setAudienceMode, activeSection, setActiveSection, activeModes, toggleMode, clearModes, user, logout, theme, toggleTheme } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobilityModes, setMobilityModes] = useState([]);
@@ -154,21 +154,21 @@ export default function Dashboard() {
   const RoleIcon = ROLE_ICONS[user?.role] || Crown;
 
   return (
-    <div className="h-screen flex bg-[#0B0E14] text-slate-200 overflow-hidden" data-testid="dashboard">
+    <div className="h-screen flex bg-slate-50 dark:bg-[#0B0E14] text-slate-800 dark:text-slate-200 overflow-hidden" data-testid="dashboard">
       {/* Desktop Sidebar */}
-      <aside className={`hidden lg:flex flex-col border-r border-slate-800/60 bg-[#0D1117] transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-16'}`} data-testid="sidebar">
-        <div className="h-14 flex items-center px-4 border-b border-slate-800/60">
+      <aside className={`hidden lg:flex flex-col border-r border-slate-200 dark:border-slate-800/60 bg-white dark:bg-[#0D1117] transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-16'}`} data-testid="sidebar">
+        <div className="h-14 flex items-center px-4 border-b border-slate-200 dark:border-slate-800/60">
           {sidebarOpen ? (
             <div className="flex items-center justify-between w-full">
               <Link to="/" className="flex items-center gap-2">
                 <Logo size={36} hideText />
               </Link>
-              <button onClick={() => setSidebarOpen(false)} className="text-slate-500 hover:text-slate-300 transition-colors" data-testid="collapse-sidebar-btn">
+              <button onClick={() => setSidebarOpen(false)} className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors" data-testid="collapse-sidebar-btn">
                 <ChevronLeft className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            <button onClick={() => setSidebarOpen(true)} className="mx-auto text-slate-500 hover:text-slate-300 transition-colors" data-testid="expand-sidebar-btn">
+            <button onClick={() => setSidebarOpen(true)} className="mx-auto text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors" data-testid="expand-sidebar-btn">
               <ChevronRight className="w-4 h-4" />
             </button>
           )}
@@ -180,7 +180,7 @@ export default function Dashboard() {
               onClick={() => handleSectionChange(s.id)}
               className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm transition-all duration-200 ${activeSection === s.id
                 ? 'bg-blue-600/10 text-blue-400 border-r-2 border-blue-500'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/50'
                 }`}
               data-testid={`nav-${s.id}`}
             >
@@ -190,7 +190,7 @@ export default function Dashboard() {
           ))}
         </nav>
         {sidebarOpen && (
-          <div className="p-3 border-t border-slate-800/60 space-y-3">
+          <div className="p-3 border-t border-slate-200 dark:border-slate-800/60 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs text-slate-500">Demo Mode</span>
               <Switch checked={demoMode} onCheckedChange={setDemoMode} data-testid="demo-mode-toggle" />
@@ -202,13 +202,13 @@ export default function Dashboard() {
             )}
             {/* User Info */}
             {user && (
-              <div className="pt-2 border-t border-slate-800/40">
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-800/40">
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center">
-                    <RoleIcon className="w-3.5 h-3.5 text-slate-400" strokeWidth={1.5} />
+                  <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                    <RoleIcon className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" strokeWidth={1.5} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-xs text-white font-medium truncate">{user.name}</div>
+                    <div className="text-xs text-slate-900 dark:text-white font-medium truncate">{user.name}</div>
                     <div className="text-xs text-slate-500 truncate">{user.role_name}</div>
                   </div>
                 </div>
@@ -224,33 +224,36 @@ export default function Dashboard() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
-        <header className="h-14 flex items-center justify-between px-4 lg:px-6 border-b border-slate-800/60 bg-[#0D1117]/80 glass-panel flex-shrink-0" data-testid="topbar">
+        <header className="h-14 flex items-center justify-between px-4 lg:px-6 border-b border-slate-200 dark:border-slate-800/60 bg-white/80 dark:bg-[#0D1117]/80 glass-panel flex-shrink-0" data-testid="topbar">
           <div className="flex items-center gap-3">
-            <button className="lg:hidden text-slate-400 hover:text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} data-testid="mobile-menu-toggle">
+            <button className="lg:hidden text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} data-testid="mobile-menu-toggle">
               <Menu className="w-5 h-5" />
             </button>
             <div className="lg:hidden flex items-center gap-2">
               <Logo size={30} hideText />
             </div>
             <div className="hidden lg:block">
-              <h1 className="font-heading font-semibold text-white text-sm">
+              <h1 className="font-heading font-semibold text-slate-900 dark:text-white text-sm">
                 {SECTIONS.find(s => s.id === activeSection)?.name || 'Dashboard'}
               </h1>
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <button onClick={toggleTheme} className="p-1.5 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors" data-testid="theme-toggle">
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
             <Select value={audienceMode} onValueChange={setAudienceMode}>
-              <SelectTrigger className="w-[180px] h-8 bg-slate-800/60 border-slate-700 text-xs text-slate-300" data-testid="audience-mode-select">
+              <SelectTrigger className="w-[180px] h-8 bg-white dark:bg-slate-800/60 border-slate-300 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300" data-testid="audience-mode-select">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-slate-900 border-slate-700">
+              <SelectContent className="bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700">
                 {AUDIENCE_MODES.map(m => (
-                  <SelectItem key={m.id} value={m.id} className="text-xs text-slate-300 focus:bg-slate-800 focus:text-white">{m.name}</SelectItem>
+                  <SelectItem key={m.id} value={m.id} className="text-xs text-slate-700 dark:text-slate-300 focus:bg-slate-800 focus:text-white">{m.name}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
             {user && (
-              <div className="hidden md:flex items-center gap-2 text-xs text-slate-400 border-l border-slate-800 pl-3">
+              <div className="hidden md:flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400 border-l border-slate-200 dark:border-slate-800 pl-3">
                 <RoleIcon className="w-3.5 h-3.5" strokeWidth={1.5} />
                 <span className="truncate max-w-[100px]">{user.name}</span>
               </div>
@@ -263,21 +266,21 @@ export default function Dashboard() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden fixed inset-0 z-50 bg-[#0B0E14]/95 glass-panel" data-testid="mobile-nav-overlay">
+          <div className="lg:hidden fixed inset-0 z-50 bg-white/95 dark:bg-[#0B0E14]/95 glass-panel" data-testid="mobile-nav-overlay">
             <div className="p-4">
               <div className="flex items-center justify-between mb-6">
-                <span className="font-heading font-bold text-white">Navigation</span>
-                <button onClick={() => setMobileMenuOpen(false)} className="text-slate-400">
+                <span className="font-heading font-bold text-slate-900 dark:text-white">Navigation</span>
+                <button onClick={() => setMobileMenuOpen(false)} className="text-slate-600 dark:text-slate-400">
                   <X className="w-5 h-5" />
                 </button>
               </div>
               {user && (
-                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-800/40">
-                  <div className="w-9 h-9 rounded-lg bg-slate-800 flex items-center justify-center">
-                    <RoleIcon className="w-4 h-4 text-slate-400" />
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-200 dark:border-slate-800/40">
+                  <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                    <RoleIcon className="w-4 h-4 text-slate-600 dark:text-slate-400" />
                   </div>
                   <div>
-                    <div className="text-sm text-white font-medium">{user.name}</div>
+                    <div className="text-sm text-slate-900 dark:text-white font-medium">{user.name}</div>
                     <div className="text-xs text-slate-500">{user.role_name}</div>
                   </div>
                 </div>
@@ -286,7 +289,7 @@ export default function Dashboard() {
                 <button
                   key={s.id}
                   onClick={() => handleSectionChange(s.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm mb-1 ${activeSection === s.id ? 'bg-blue-600/10 text-blue-400' : 'text-slate-400 hover:bg-slate-800/50'
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm mb-1 ${activeSection === s.id ? 'bg-blue-600/10 text-blue-400' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50'
                     }`}
                 >
                   <s.icon className="w-4 h-4" strokeWidth={1.5} />

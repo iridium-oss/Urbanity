@@ -11,7 +11,11 @@ L.Icon.Default.mergeOptions({
 
 const BAKU_CENTER = [40.4093, 49.8671];
 
-export default function MapComponent({ lines = [], markers = [], dark = true, zoom = 12, className = '', height = '100%' }) {
+import { useApp } from '@/context/AppContext';
+
+export default function MapComponent({ lines = [], markers = [], dark, zoom = 12, className = '', height = '100%' }) {
+  const { theme } = useApp();
+  const isDark = dark !== undefined ? dark : theme === 'dark';
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -20,12 +24,12 @@ export default function MapComponent({ lines = [], markers = [], dark = true, zo
     }
   }, []);
 
-  const tileUrl = dark
+  const tileUrl = isDark
     ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
     : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
   return (
-    <div className={`${dark ? 'dark-map' : ''} ${className}`} style={{ height }} data-testid="map-container">
+    <div className={`${isDark ? 'dark-map' : ''} ${className}`} style={{ height }} data-testid="map-container">
       <MapContainer
         center={BAKU_CENTER}
         zoom={zoom}

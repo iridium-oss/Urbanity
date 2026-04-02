@@ -25,7 +25,7 @@ export default function Provenance() {
   }, []);
 
   if (loading) {
-    return <div className="animate-pulse space-y-3">{[...Array(3)].map((_, i) => <div key={i} className="bg-[#141820] rounded-xl h-20 border border-slate-800/60" />)}</div>;
+    return <div className="animate-pulse space-y-3">{[...Array(3)].map((_, i) => <div key={i} className="bg-white dark:bg-[#141820] rounded-xl h-20 border border-slate-200 dark:border-slate-800/60" />)}</div>;
   }
 
   const filtered = filter === 'all' ? providers : providers.filter(p => p.provenance === filter);
@@ -34,13 +34,13 @@ export default function Provenance() {
   return (
     <div className="space-y-6" data-testid="provenance-page">
       <div>
-        <h2 className="font-heading text-xl font-semibold text-white">Provider Provenance</h2>
-        <p className="text-sm text-slate-400 mt-1">Source transparency for every data provider in the Urbanivity system</p>
+        <h2 className="font-heading text-xl font-semibold text-slate-900 dark:text-white">Provider Provenance</h2>
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Source transparency for every data provider in the Urbanivity system</p>
       </div>
 
       {/* Provenance Legend */}
-      <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5" data-testid="provenance-legend">
-        <h3 className="font-heading text-sm font-medium text-white mb-4">Provenance Classification</h3>
+      <div className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl p-5" data-testid="provenance-legend">
+        <h3 className="font-heading text-sm font-medium text-slate-900 dark:text-white mb-4">Provenance Classification</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {Object.entries(PROV_CONFIG).map(([key, cfg]) => {
             const Icon = cfg.icon;
@@ -58,7 +58,7 @@ export default function Provenance() {
 
       {/* Filter */}
       <Tabs defaultValue="all" onValueChange={setFilter}>
-        <TabsList className="bg-slate-800/60 flex-wrap h-auto gap-1 p-1">
+        <TabsList className="bg-white dark:bg-slate-800/60 flex-wrap h-auto gap-1 p-1">
           <TabsTrigger value="all" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">All ({providers.length})</TabsTrigger>
           {Object.entries(provCounts).map(([key, count]) => (
             <TabsTrigger key={key} value={key} className={`text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white`}>
@@ -69,11 +69,11 @@ export default function Provenance() {
       </Tabs>
 
       {/* Provider Table */}
-      <div className="bg-[#141820] border border-slate-800/60 rounded-xl overflow-hidden" data-testid="providers-table">
+      <div className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl overflow-hidden" data-testid="providers-table">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-slate-800/40 text-xs text-slate-500 font-mono uppercase tracking-wider">
+              <tr className="border-b border-slate-200 dark:border-slate-800/40 text-xs text-slate-500 font-mono uppercase tracking-wider">
                 <th className="text-left p-4">Provider</th>
                 <th className="text-left p-4">Type</th>
                 <th className="text-left p-4">Provenance</th>
@@ -87,19 +87,19 @@ export default function Provenance() {
               {filtered.map((p) => {
                 const cfg = PROV_CONFIG[p.provenance] || PROV_CONFIG.unavailable;
                 return (
-                  <tr key={p.id} className="border-b border-slate-800/20 hover:bg-slate-800/20 transition-colors" data-testid={`provider-${p.id}`}>
+                  <tr key={p.id} className="border-b border-slate-200 dark:border-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800/40 transition-colors" data-testid={`provider-${p.id}`}>
                     <td className="p-4">
-                      <div className="font-medium text-white">{p.name}</div>
+                      <div className="font-medium text-slate-900 dark:text-white">{p.name}</div>
                       <div className="text-xs text-slate-500 mt-0.5 max-w-xs truncate">{p.description}</div>
                     </td>
-                    <td className="p-4 text-slate-400 text-xs">{p.type}</td>
+                    <td className="p-4 text-slate-600 dark:text-slate-400 text-xs">{p.type}</td>
                     <td className="p-4">
                       <Badge variant="outline" className={`text-xs ${cfg.color} ${cfg.border} ${cfg.bg}`}>
                         <div className="w-1.5 h-1.5 rounded-full mr-1.5 pulse-dot" style={{ backgroundColor: cfg.dot }} />
                         {cfg.label}
                       </Badge>
                     </td>
-                    <td className="p-4 text-xs text-slate-400">{p.coverage}</td>
+                    <td className="p-4 text-xs text-slate-600 dark:text-slate-400">{p.coverage}</td>
                     <td className="p-4 text-right">
                       {p.reliability !== null ? (
                         <span className={`font-mono text-xs ${p.reliability >= 0.9 ? 'text-emerald-400' : p.reliability >= 0.7 ? 'text-amber-400' : 'text-red-400'}`}>
@@ -109,7 +109,7 @@ export default function Provenance() {
                         <span className="text-xs text-slate-600">N/A</span>
                       )}
                     </td>
-                    <td className="p-4 text-right text-xs text-slate-400">
+                    <td className="p-4 text-right text-xs text-slate-600 dark:text-slate-400">
                       {p.freshness_hours !== null ? (
                         p.freshness_hours < 1 ? `${Math.round(p.freshness_hours * 60)}m` : `${p.freshness_hours}h`
                       ) : 'N/A'}
@@ -126,8 +126,8 @@ export default function Provenance() {
       </div>
 
       {/* Explanation */}
-      <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5">
-        <h3 className="font-heading text-sm font-medium text-white mb-2">Why Provenance Matters</h3>
+      <div className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+        <h3 className="font-heading text-sm font-medium text-slate-900 dark:text-white mb-2">Why Provenance Matters</h3>
         <p className="text-xs text-slate-500 leading-relaxed">
           Every piece of data in Urbanivity carries a provenance tag that describes its source, trust level, and freshness.
           This allows decision-makers to understand the reliability of what they see, distinguish between official government data and

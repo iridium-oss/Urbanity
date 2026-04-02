@@ -14,7 +14,7 @@ const TREND_ICONS = {
 };
 
 const TREND_COLORS = {
-  stable: 'text-slate-400', increasing: 'text-amber-400',
+  stable: 'text-slate-600 dark:text-slate-400', increasing: 'text-amber-400',
   decreasing: 'text-red-400', seasonal: 'text-blue-400', improving: 'text-emerald-400',
 };
 
@@ -27,32 +27,32 @@ export default function EarthObservation() {
   }, []);
 
   if (loading || !data) {
-    return <div className="animate-pulse"><div className="bg-[#141820] rounded-xl h-64 border border-slate-800/60" /></div>;
+    return <div className="animate-pulse"><div className="bg-white dark:bg-[#141820] rounded-xl h-64 border border-slate-200 dark:border-slate-800/60" /></div>;
   }
 
   return (
     <div className="space-y-6" data-testid="earth-observation-page">
       <div>
-        <h2 className="font-heading text-xl font-semibold text-white">Earth Observation Context</h2>
-        <p className="text-sm text-slate-400 mt-1">Satellite-derived environmental and urban context for planning</p>
+        <h2 className="font-heading text-xl font-semibold text-slate-900 dark:text-white">Earth Observation Context</h2>
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Satellite-derived environmental and urban context for planning</p>
       </div>
 
       {/* Satellite Info */}
-      <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5" data-testid="satellite-info">
+      <div className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl p-5" data-testid="satellite-info">
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
               <Satellite className="w-5 h-5 text-blue-400" strokeWidth={1.5} />
             </div>
             <div>
-              <h3 className="font-heading text-sm font-medium text-white">{data.satellite}</h3>
+              <h3 className="font-heading text-sm font-medium text-slate-900 dark:text-white">{data.satellite}</h3>
               <p className="text-xs text-slate-500">Earth Observation Satellite</p>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-xs text-slate-400 ml-auto flex-wrap">
-            <span>Resolution: <span className="text-slate-300">{data.resolution}</span></span>
-            <span>Coverage: <span className="text-slate-300">{data.coverage}</span></span>
-            <span>Last Capture: <span className="text-slate-300">{data.last_capture?.split('T')[0]}</span></span>
+          <div className="flex items-center gap-4 text-xs text-slate-600 dark:text-slate-400 ml-auto flex-wrap">
+            <span>Resolution: <span className="text-slate-700 dark:text-slate-300">{data.resolution}</span></span>
+            <span>Coverage: <span className="text-slate-700 dark:text-slate-300">{data.coverage}</span></span>
+            <span>Last Capture: <span className="text-slate-700 dark:text-slate-300">{data.last_capture?.split('T')[0]}</span></span>
             <Badge variant="outline" className="text-emerald-400 border-emerald-500/30 bg-emerald-500/10 text-xs">
               official
             </Badge>
@@ -65,22 +65,22 @@ export default function EarthObservation() {
         {data.layers.map((layer) => {
           const Icon = LAYER_ICONS[layer.id] || Globe;
           const TrendIcon = TREND_ICONS[layer.trend] || Minus;
-          const trendColor = TREND_COLORS[layer.trend] || 'text-slate-400';
+          const trendColor = TREND_COLORS[layer.trend] || 'text-slate-600 dark:text-slate-400';
           return (
-            <div key={layer.id} className="bg-[#141820] border border-slate-800/60 rounded-xl p-5 hover:border-slate-700 transition-all" data-testid={`eo-layer-${layer.id}`}>
+            <div key={layer.id} className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 hover:border-slate-300 dark:hover:border-slate-700 transition-all" data-testid={`eo-layer-${layer.id}`}>
               <div className="flex items-center justify-between mb-4">
-                <div className="w-10 h-10 rounded-lg bg-slate-800/80 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800/80 flex items-center justify-center">
                   <Icon className="w-5 h-5 text-blue-400" strokeWidth={1.5} />
                 </div>
                 <Badge variant="outline" className={`text-xs ${layer.status === 'available' ? 'text-emerald-400 border-emerald-500/30' : 'text-amber-400 border-amber-500/30'}`}>
                   {layer.status}
                 </Badge>
               </div>
-              <h3 className="font-heading text-sm font-medium text-white mb-1">{layer.name}</h3>
+              <h3 className="font-heading text-sm font-medium text-slate-900 dark:text-white mb-1">{layer.name}</h3>
               <p className="text-xs text-slate-500 leading-relaxed mb-4">{layer.description}</p>
-              <div className="flex items-center justify-between pt-3 border-t border-slate-800/40">
+              <div className="flex items-center justify-between pt-3 border-t border-slate-200 dark:border-slate-800/40">
                 <div>
-                  <span className="font-heading text-lg font-bold text-white">{layer.value}</span>
+                  <span className="font-heading text-lg font-bold text-slate-900 dark:text-white">{layer.value}</span>
                   <span className="text-xs text-slate-500 ml-1">{layer.unit}</span>
                 </div>
                 <div className={`flex items-center gap-1 text-xs ${trendColor}`}>
@@ -94,8 +94,8 @@ export default function EarthObservation() {
       </div>
 
       {/* Context Note */}
-      <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5">
-        <h3 className="font-heading text-sm font-medium text-white mb-2">About Earth Observation Data</h3>
+      <div className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl p-5">
+        <h3 className="font-heading text-sm font-medium text-slate-900 dark:text-white mb-2">About Earth Observation Data</h3>
         <p className="text-xs text-slate-500 leading-relaxed">
           Earth observation data from {data.satellite} provides environmental and planning context for urban mobility decisions.
           This data is used for urban heat island analysis, green space monitoring, and urban expansion tracking.

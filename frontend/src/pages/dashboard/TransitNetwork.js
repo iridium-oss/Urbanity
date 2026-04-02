@@ -17,7 +17,7 @@ export default function TransitNetwork() {
   }, []);
 
   if (loading || !data) {
-    return <div className="animate-pulse"><div className="bg-[#141820] rounded-xl h-96 border border-slate-800/60" /></div>;
+    return <div className="animate-pulse"><div className="bg-white dark:bg-[#141820] rounded-xl h-96 border border-slate-200 dark:border-slate-800/60" /></div>;
   }
 
   const filteredLines = (filter === 'all' ? data.lines : data.lines.filter(l => {
@@ -29,8 +29,8 @@ export default function TransitNetwork() {
   return (
     <div className="space-y-6" data-testid="transit-network-page">
       <div>
-        <h2 className="font-heading text-xl font-semibold text-white">Transit Network</h2>
-        <p className="text-sm text-slate-400 mt-1">Metro lines, bus routes, and station coverage across Baku</p>
+        <h2 className="font-heading text-xl font-semibold text-slate-900 dark:text-white">Transit Network</h2>
+        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">Metro lines, bus routes, and station coverage across Baku</p>
       </div>
 
       {/* Stats */}
@@ -41,23 +41,23 @@ export default function TransitNetwork() {
           { icon: Bus, label: 'Bus Routes', value: data.total_routes, color: 'text-emerald-400' },
           { icon: Users, label: 'Daily Ridership', value: `${(data.daily_ridership / 1000000).toFixed(1)}M`, color: 'text-purple-400' },
         ].map((s) => (
-          <div key={s.label} className="bg-[#141820] border border-slate-800/60 rounded-xl p-4">
+          <div key={s.label} className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl p-4">
             <s.icon className={`w-4 h-4 ${s.color} mb-2`} strokeWidth={1.5} />
-            <div className="font-heading text-xl font-bold text-white">{s.value}</div>
-            <div className="text-xs text-slate-400">{s.label}</div>
+            <div className="font-heading text-xl font-bold text-slate-900 dark:text-white">{s.value}</div>
+            <div className="text-xs text-slate-600 dark:text-slate-400">{s.label}</div>
           </div>
         ))}
       </div>
 
       {/* Map + Line Details */}
       <div className="grid lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-2 bg-[#141820] border border-slate-800/60 rounded-xl overflow-hidden" data-testid="transit-map">
-          <MapComponent lines={filteredLines} height="450px" dark={true} zoom={12} />
+        <div className="lg:col-span-2 bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl overflow-hidden" data-testid="transit-map">
+          <MapComponent lines={filteredLines} height="450px" zoom={12} />
         </div>
-        <div className="bg-[#141820] border border-slate-800/60 rounded-xl p-5 overflow-y-auto urbanivity-scroll" style={{ maxHeight: '450px' }} data-testid="transit-lines-panel">
-          <h3 className="font-heading text-sm font-medium text-white mb-4">Transit Lines</h3>
+        <div className="bg-white dark:bg-[#141820] border border-slate-200 dark:border-slate-800/60 rounded-xl p-5 overflow-y-auto urbanivity-scroll" style={{ maxHeight: '450px' }} data-testid="transit-lines-panel">
+          <h3 className="font-heading text-sm font-medium text-slate-900 dark:text-white mb-4">Transit Lines</h3>
           <Tabs defaultValue="all" onValueChange={setFilter}>
-            <TabsList className="bg-slate-800/60 flex-wrap h-auto gap-0.5 p-1">
+            <TabsList className="bg-white dark:bg-slate-800/60 flex-wrap h-auto gap-0.5 p-1">
               <TabsTrigger value="all" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">All</TabsTrigger>
               <TabsTrigger value="metro" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Metro</TabsTrigger>
               <TabsTrigger value="bus" className="text-xs data-[state=active]:bg-blue-600 data-[state=active]:text-white">Bus</TabsTrigger>
@@ -69,15 +69,15 @@ export default function TransitNetwork() {
           </Tabs>
           <div className="space-y-3">
             {filteredLines.map((line) => (
-              <div key={line.id} className="p-4 rounded-lg bg-slate-900/50 border border-slate-800/40 hover:border-slate-700 transition-all">
+              <div key={line.id} className="p-4 rounded-lg bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/40 hover:border-slate-300 dark:hover:border-slate-700 transition-all">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: line.color }} />
-                  <span className="font-heading font-medium text-white text-sm">{line.name}</span>
-                  <Badge variant="outline" className={`text-xs ml-auto ${line.status === 'active' ? 'text-emerald-400 border-emerald-500/30' : 'text-slate-400 border-slate-600'}`}>
+                  <span className="font-heading font-medium text-slate-900 dark:text-white text-sm">{line.name}</span>
+                  <Badge variant="outline" className={`text-xs ml-auto ${line.status === 'active' ? 'text-emerald-400 border-emerald-500/30' : 'text-slate-600 dark:text-slate-400 border-slate-600'}`}>
                     {line.status}
                   </Badge>
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-xs text-slate-400">
+                <div className="grid grid-cols-2 gap-2 text-xs text-slate-600 dark:text-slate-400">
                   <div className="flex items-center gap-1"><MapPin className="w-3 h-3" />{line.stations} stops</div>
                   <div className="flex items-center gap-1"><Clock className="w-3 h-3" />{line.frequency_min > 0 ? `Every ${line.frequency_min} min` : 'Open'}</div>
                   <div>Length: {line.length_km} km</div>

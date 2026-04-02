@@ -15,7 +15,7 @@ export default function Logo({
         src="/assets/urbanivity-logo.png"
         alt="Urbanivity logo"
         className={`block object-contain ${imageClassName}`}
-        style={{ width: imageSize, height: imageSize }}
+        style={{ height: imageSize, width: 'auto' }}
       />
       {!hideText && (
         <span className={`font-heading font-bold text-lg tracking-tight ${textClassName}`}>Urbanivity</span>
